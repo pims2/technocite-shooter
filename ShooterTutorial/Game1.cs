@@ -21,6 +21,7 @@ namespace ShooterTutorial
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
         Player _player;
+        Weapon _weapon;
 
         Texture2D _mainBackground;
         ParallaxingBackground _bgLayer1;
@@ -79,6 +80,7 @@ namespace ShooterTutorial
         {
             // TODO: Add your initialization logic here
             _player = new Player();
+            _weapon = new Weapon(this);
 
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
@@ -242,7 +244,17 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.Space) || _currentGamePadState.Buttons.X == ButtonState.Pressed)
             {
-                FireLaser(gameTime);
+                _weapon.Fire(gameTime);
+            }
+
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))
+            {
+                _weapon = new Weapon(this);
+            }
+
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad2))
+            {
+                _weapon = new TripleWeapon(this);
             }
 
             // Make sure that the player does not go out of bounds
@@ -314,7 +326,7 @@ namespace ShooterTutorial
                 }
         }
 
-        protected void AddLaser()
+        public void AddLaser(float verticalOffset)
         {
             Animation laserAnimation = new Animation();
 
@@ -334,7 +346,7 @@ namespace ShooterTutorial
             // Get the starting postion of the laser.
             var laserPostion = _player.Position;
             // Adjust the position slightly to match the muzzle of the cannon.
-            laserPostion.Y += 37;
+            laserPostion.Y += 37 + verticalOffset;
             laserPostion.X += 70;
 
             // init the laser
