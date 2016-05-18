@@ -1,0 +1,13 @@
+syntax: glob
+[Bb]in/
+obj/
+_ReSharper.*/
+*.suo
+*.user
+packages/
+Images/
+Conservatorium/AppPackages/
+CustomModelClassSample_4_0/
+*.cachefile
+Thumbs.db
+*.htm
