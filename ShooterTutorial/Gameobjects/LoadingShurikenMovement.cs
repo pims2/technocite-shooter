@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace ShooterTutorial.GameObjects
 {
-    class LinearMovement: IMovement
+    class LoadingShurikenMovement: IMovement
     {
         // postion of the laser
         public Vector2 Position;
@@ -27,7 +27,7 @@ namespace ShooterTutorial.GameObjects
   
         //private float Offsetsize = 200f;
       
-        public LinearMovement(Vector2 position, Vector2 direction)
+        public LoadingShurikenMovement(Vector2 position, Vector2 direction)
         {
             Position = position;
 
