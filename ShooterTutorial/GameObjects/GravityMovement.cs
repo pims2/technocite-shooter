@@ -10,20 +10,16 @@ namespace ShooterTutorial.GameObjects
     class GravityMovement : IMovement
     {
         private Vector2 position, directionOfMove;
-        private float angle;
         private float speed;
-
-        private double amplitude;
-        private double timer;
-
         private Vector2 gravity;
+
+        private float angle;
 
         public GravityMovement(Vector2 positionOfStart, Vector2 direction, float speedOfMove, Vector2 gravityVector)
         {
             position = positionOfStart;
             directionOfMove = direction;
             speed = speedOfMove;
-            timer = 0;
             gravity = gravityVector;
         }
 
@@ -54,6 +50,7 @@ namespace ShooterTutorial.GameObjects
             laserDirection.Y = (float)Math.Sin(angleInRadian);
 
             return new GravityMovement(tempPosition, laserDirection, inputSpeed, gravity);
+
         }
     }
 }
