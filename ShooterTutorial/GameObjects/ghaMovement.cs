@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace ShooterTutorial.GameObjects
 {
-    class LinearMovement: IMovement
+    class ghaMovement: IMovement
     {
         // postion of the laser
         public Vector2 Position;
@@ -21,7 +21,9 @@ namespace ShooterTutorial.GameObjects
         // rotation
         float Rotation = 0f;
 
-        public LinearMovement(Vector2 position, Vector2 direction, float rotation)
+        
+
+        public ghaMovement(Vector2 position, Vector2 direction, float rotation)
         {
             Position = position;
             Rotation = rotation;
@@ -32,6 +34,7 @@ namespace ShooterTutorial.GameObjects
         public void update( GameTime gameTime )
         {
             Position += laserMoveSpeed * Direction;
+            
         }
 
         public Vector2 getPosition()
@@ -44,7 +47,7 @@ namespace ShooterTutorial.GameObjects
             return Rotation;
         }
 
-        public static LinearMovement create(Vector2 position, float verticalOffset, float angle, float rotation)
+        public static ghaMovement create(Vector2 position, float verticalOffset, float angle, float rotation)
         {
             // Adjust the position slightly to match the muzzle of the cannon.
             position.Y += 37 + verticalOffset;
@@ -55,7 +58,7 @@ namespace ShooterTutorial.GameObjects
             direction.X = (float)Math.Cos((double)angle);
             direction.Y = (float)Math.Sin((double)angle);
 
-            return new LinearMovement(position, direction, rotation);
+            return new ghaMovement(position, direction, rotation);
         }
     }
 }
