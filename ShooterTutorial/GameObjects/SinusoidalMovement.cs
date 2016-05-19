@@ -13,22 +13,24 @@ namespace ShooterTutorial.GameObjects
         private float angle;
         private float speed;
 
-        private double sinusAngle;
+        private double amplitude;
+        private double timer;
 
         public SinusoidaleMovement(Vector2 positionOfStart, Vector2 direction, float speedOfMove)
         {
             position = positionOfStart;
             directionOfMove = direction;
             speed = speedOfMove;
+            timer = 0;
+            
         }
 
         public void update(GameTime time)
         {
-            sinusAngle++;
-            sinusAngle *= Math.PI / 180;  
-            //position += speed * directionOfMove*;
+            timer += 10*time.ElapsedGameTime.TotalSeconds;
+            System.Diagnostics.Debug.WriteLine(amplitude);
             position.X += speed * directionOfMove.X;
-            position.Y += speed * directionOfMove.Y * (float)Math.Sin(sinusAngle);
+            position.Y += speed *directionOfMove.Y + 15*((float)Math.Sin(timer));
         }
         public Vector2 GetPosition()
         {
@@ -38,18 +40,18 @@ namespace ShooterTutorial.GameObjects
         {
             return angle;
         }
-        public static linearMovement Create(Vector2 position, float offsetY, float angle, float inputSpeed = 30)
+        public static SinusoidaleMovement Create(Vector2 position, float offsetY, float angle, float inputSpeed = 30)
         {
 
             Vector2 tempPosition = new Vector2(position.X + 30, position.Y + 30 + offsetY);
             float angleInRadian = angle * (float)Math.PI / 180.0f;
-
+            
             Vector2 laserDirection = new Vector2();
 
             laserDirection.X = (float)Math.Cos(angleInRadian);
             laserDirection.Y = (float)Math.Sin(angleInRadian);
 
-            return new linearMovement(tempPosition, laserDirection, inputSpeed);
+            return new SinusoidaleMovement(tempPosition, laserDirection, inputSpeed);
         }
     }
 }
