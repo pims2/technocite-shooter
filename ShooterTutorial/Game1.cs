@@ -20,7 +20,7 @@ namespace ShooterTutorial
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        public Player _player;
+        Player _player;
         Weapon _weapon;
 
         Texture2D _mainBackground;
@@ -80,7 +80,7 @@ namespace ShooterTutorial
         {
             // TODO: Add your initialization logic here
             _player = new Player();
-            _weapon = new Weapon(this);
+            _weapon = new Weapon(this, _player);
 
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
@@ -249,12 +249,12 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))
             {
-                _weapon = new Weapon(this);
+                _weapon = new Weapon(this, _player);
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad2))
             {
-                _weapon = new TripleWeapon(this);
+                _weapon = new TripleWeapon(this, _player);
             }
 
             // Make sure that the player does not go out of bounds
