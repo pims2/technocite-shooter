@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace ShooterTutorial.GameObjects
 {
-    class LinearMovement: IMovement
+    class LinearMovementRotation: IMovement
     {
         // postion of the laser
         public Vector2 Position;
@@ -16,23 +16,22 @@ namespace ShooterTutorial.GameObjects
         // Direction of the laser
         public Vector2 Direction;
 
-        public float MoveSpeed;
-        
-        const float DEFAULT_SPEED = 30f;
+        // the speed the laser traves
+        float laserMoveSpeed = 30f;
+        // rotation
+        float Rotation = 0f;
 
-        public LinearMovement(Vector2 position, Vector2 direction)
+        public LinearMovementRotation(Vector2 position, Vector2 direction, float rotation)
         {
             Position = position;
-  
+            Rotation = rotation;
             Direction = direction;
             Direction.Normalize();
-
-            MoveSpeed = DEFAULT_SPEED;
         }
 
         public void update( GameTime gameTime )
         {
-            Position += MoveSpeed * Direction;
+            Position += laserMoveSpeed * Direction;
         }
 
         public Vector2 getPosition()
@@ -42,10 +41,10 @@ namespace ShooterTutorial.GameObjects
 
         public float getRotation()
         {
-            return 0f;
+            return Rotation;
         }
-        
-        public static LinearMovement create(Vector2 position, float verticalOffset, float angle, float speed = DEFAULT_SPEED)
+
+        public static LinearMovementRotation create(Vector2 position, float verticalOffset, float angle, float rotation)
         {
             // Adjust the position slightly to match the muzzle of the cannon.
             position.Y += 37 + verticalOffset;
@@ -56,11 +55,7 @@ namespace ShooterTutorial.GameObjects
             direction.X = (float)Math.Cos((double)angle);
             direction.Y = (float)Math.Sin((double)angle);
 
-            var m = new LinearMovement(position, direction);
-
-            m.MoveSpeed = speed;
-
-            return m;
+            return new LinearMovementRotation(position, direction, rotation);
         }
     }
 }
