@@ -249,16 +249,22 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))
             {
-<<<<<<< HEAD
                 _weapon = new Weapon(this,_player);
-=======
-                _weapon = new Weapon(this, _player);
->>>>>>> FishingCactus/master
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad2))
             {
                 _weapon = new TripleWeapon(this, _player);
+            }
+
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad3))
+            {
+                _weapon = new AdnWeapon(this, _player);
+            }
+
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                _weapon = new WaveWeapon(this, _player);
             }
 
             // Make sure that the player does not go out of bounds

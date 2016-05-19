@@ -22,11 +22,7 @@ namespace ShooterTutorial.GameObjects
             _laserSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
             _previousLaserSpawnTime = TimeSpan.Zero;
             _game = game;
-<<<<<<< HEAD
-            _player = 
-=======
             _player = player;
->>>>>>> FishingCactus/master
         }
 
         public virtual void Fire(GameTime gameTime)
@@ -49,7 +45,7 @@ namespace ShooterTutorial.GameObjects
         {
         }
 
-        public override void Fire(GameTime gameTime, Player player)
+        public override void Fire(GameTime gameTime)
         {
             // govern the rate of fire for our lasers
             if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
@@ -65,10 +61,10 @@ namespace ShooterTutorial.GameObjects
         }
     }
 
-    class WaveWeapon : Weapon
+    class AdnWeapon : Weapon
     {
 
-        public WaveWeapon(Game1 game) : base(game)
+        public AdnWeapon(Game1 game, Player player) : base(game, player)
         {
         }
 
@@ -80,7 +76,28 @@ namespace ShooterTutorial.GameObjects
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
                 // Add the laer to our list.
-                _game.AddLaser(LinearMovement.create(_game._player.Position, 0f, 0.0f));
+                _game.AddLaser(WaveMovement.create(_player.Position, 0f, 10, 75));
+            }
+
+        }
+    }
+
+    class WaveWeapon : Weapon
+    {
+
+        public WaveWeapon(Game1 game, Player player) : base(game, player)
+        {
+        }
+
+        public override void Fire(GameTime gameTime)
+        {
+            // govern the rate of fire for our lasers
+            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
+            {
+                _previousLaserSpawnTime = gameTime.TotalGameTime;
+
+                // Add the laer to our list.
+                _game.AddLaser(WaveMovement.create(_player.Position, -50f, 50, 50));
             }
 
         }
