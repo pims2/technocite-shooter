@@ -326,7 +326,7 @@ namespace ShooterTutorial
                 }
         }
 
-        public void AddLaser(float verticalOffset)
+        public void AddLaser(float verticalOffset, float angle)
         {
             Animation laserAnimation = new Animation();
 
@@ -349,8 +349,13 @@ namespace ShooterTutorial
             laserPostion.Y += 37 + verticalOffset;
             laserPostion.X += 70;
 
+            var laserDirection = new Vector2();
+
+            laserDirection.X = (float)Math.Cos((double)angle);
+            laserDirection.Y = (float)Math.Sin((double)angle);
+
             // init the laser
-            laser.Initialize(laserAnimation, laserPostion);
+            laser.Initialize(laserAnimation, laserPostion, laserDirection);
 
             laserBeams.Add(laser);
 

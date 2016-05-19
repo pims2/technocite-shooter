@@ -19,6 +19,9 @@ namespace ShooterTutorial.GameObjects
         // postion of the laser
         public Vector2 Position;
 
+        // Direction of the laser
+        public Vector2 Direction;
+
         // The damage the laser deals.
         int Damage = 10;
 
@@ -41,16 +44,25 @@ namespace ShooterTutorial.GameObjects
 
         }
 
-        public void Initialize(Animation animation, Vector2 position)
+        public void Initialize(Animation animation, Vector2 position, Vector2 direction)
         {
             LaserAnimation = animation;
             Position = position;
+
+            Direction = direction;
+            Direction.Normalize();
+
             Active = true;
         }
 
         public void Update(GameTime gameTime)
         {
-            Position.X += laserMoveSpeed;
+            //Position.X += laserMoveSpeed;
+
+            //Position.X += laserMoveSpeed * Direction.X;
+            //Position.Y += laserMoveSpeed * Direction.Y;
+
+            Position += laserMoveSpeed * Direction;
 
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
