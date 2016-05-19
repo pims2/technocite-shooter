@@ -20,7 +20,7 @@ namespace ShooterTutorial
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        Player _player;
+        public Player _player;
         Weapon _weapon;
 
         Texture2D _mainBackground;
@@ -326,7 +326,7 @@ namespace ShooterTutorial
                 }
         }
 
-        public void AddLaser(float verticalOffset, float angle)
+        public void AddLaser(IMovement movement)
         {
             Animation laserAnimation = new Animation();
 
@@ -343,19 +343,8 @@ namespace ShooterTutorial
 
             Laser laser = new Laser();
 
-            // Get the starting postion of the laser.
-            var laserPostion = _player.Position;
-            // Adjust the position slightly to match the muzzle of the cannon.
-            laserPostion.Y += 37 + verticalOffset;
-            laserPostion.X += 70;
-
-            var laserDirection = new Vector2();
-
-            laserDirection.X = (float)Math.Cos((double)angle);
-            laserDirection.Y = (float)Math.Sin((double)angle);
-
             // init the laser
-            laser.Initialize(laserAnimation, laserPostion, laserDirection);
+            laser.Initialize(laserAnimation, movement);
 
             laserBeams.Add(laser);
 

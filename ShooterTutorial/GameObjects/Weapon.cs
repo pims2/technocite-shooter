@@ -30,8 +30,7 @@ namespace ShooterTutorial.GameObjects
             {
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
-                // Add the laer to our list.
-                _game.AddLaser(0.0f, 0.0f);
+                _game.AddLaser( LinearMovement.create(_game._player.Position, 0f, 0f) );
             }
 
         }
@@ -52,9 +51,9 @@ namespace ShooterTutorial.GameObjects
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
                 // Add the laer to our list.
-                _game.AddLaser(-10f, -30.0f * (float)Math.PI / 180.0f);
-                _game.AddLaser(0f, 0.0f);
-                _game.AddLaser(10f, 30.0f * (float)Math.PI / 180.0f);
+                _game.AddLaser(LinearMovement.create(_game._player.Position, -10f, -30.0f * (float)Math.PI / 180.0f));
+                _game.AddLaser(LinearMovement.create(_game._player.Position, 0f, 0.0f));
+                _game.AddLaser(LinearMovement.create(_game._player.Position, 10f, 30.0f * (float)Math.PI / 180.0f));
             }
 
         }

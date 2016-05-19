@@ -136,7 +136,9 @@
     </Compile>
     <Compile Include="GameObjects\Enemy.cs" />
     <Compile Include="GameObjects\Explosion.cs" />
+    <Compile Include="GameObjects\IMovement.cs" />
     <Compile Include="GameObjects\Laser.cs" />
+    <Compile Include="GameObjects\LinearMovement.cs" />
     <Compile Include="GameObjects\Weapon.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>

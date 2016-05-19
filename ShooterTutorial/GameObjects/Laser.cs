@@ -13,14 +13,11 @@ namespace ShooterTutorial.GameObjects
         // animation the represents the laser animation.
         public Animation LaserAnimation;
 
-        // the speed the laser traves
-        float laserMoveSpeed = 30f;
-
         // postion of the laser
         public Vector2 Position;
-
-        // Direction of the laser
-        public Vector2 Direction;
+      
+        // Movement algorithm
+        IMovement Movement;
 
         // The damage the laser deals.
         int Damage = 10;
@@ -44,25 +41,20 @@ namespace ShooterTutorial.GameObjects
 
         }
 
-        public void Initialize(Animation animation, Vector2 position, Vector2 direction)
+        public void Initialize(Animation animation, IMovement movement)
         {
             LaserAnimation = animation;
-            Position = position;
-
-            Direction = direction;
-            Direction.Normalize();
+            Movement = movement;
+            Position = movement.getPosition();
 
             Active = true;
         }
 
         public void Update(GameTime gameTime)
         {
-            //Position.X += laserMoveSpeed;
+            Movement.update(gameTime);
 
-            //Position.X += laserMoveSpeed * Direction.X;
-            //Position.Y += laserMoveSpeed * Direction.Y;
-
-            Position += laserMoveSpeed * Direction;
+            Position = Movement.getPosition();
 
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
@@ -70,7 +62,7 @@ namespace ShooterTutorial.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            LaserAnimation.Draw(spriteBatch);
+            LaserAnimation.Draw(spriteBatch, Movement.getRotation());
         }
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShooterTutorial.GameObjects
 {
-    class Player
+    public class Player
     {
         public Animation PlayerAnimation;
 
