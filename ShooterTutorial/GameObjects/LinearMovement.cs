@@ -16,21 +16,23 @@ namespace ShooterTutorial.GameObjects
         // Direction of the laser
         public Vector2 Direction;
 
-        // the speed the laser traves
-        float laserMoveSpeed = 30f;
-
+        public float MoveSpeed;
+        
+        const float DEFAULT_SPEED = 30f;
 
         public LinearMovement(Vector2 position, Vector2 direction)
         {
             Position = position;
-
+  
             Direction = direction;
             Direction.Normalize();
+
+            MoveSpeed = DEFAULT_SPEED;
         }
 
         public void update( GameTime gameTime )
         {
-            Position += laserMoveSpeed * Direction;
+            Position += MoveSpeed * Direction;
         }
 
         public Vector2 getPosition()
@@ -43,7 +45,7 @@ namespace ShooterTutorial.GameObjects
             return 0f;
         }
 
-        public static LinearMovement create(Vector2 position, float verticalOffset, float angle)
+        public static LinearMovement create(Vector2 position, float verticalOffset, float angle, float speed = DEFAULT_SPEED)
         {
             // Adjust the position slightly to match the muzzle of the cannon.
             position.Y += 37 + verticalOffset;
@@ -54,7 +56,11 @@ namespace ShooterTutorial.GameObjects
             direction.X = (float)Math.Cos((double)angle);
             direction.Y = (float)Math.Sin((double)angle);
 
-            return new LinearMovement(position, direction);
+            var m = new LinearMovement(position, direction);
+
+            m.MoveSpeed = speed;
+
+            return m;
         }
     }
 }

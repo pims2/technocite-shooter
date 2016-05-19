@@ -15,6 +15,8 @@ namespace ShooterTutorial.GameObjects
         // top of left corner of the screen
         public Vector2 Position;
 
+        public IMovement Movement;
+
         // state of the enemy ship
         public bool Active;
 
@@ -41,16 +43,17 @@ namespace ShooterTutorial.GameObjects
             get { return EnemyAnimation.FrameHeight; }
         }
 
-        public float enemyMoveSpeed;
-
-        public void Initialize(Animation animation,
-            Vector2 position)
+        public void Initialize(
+            Animation animation,
+            IMovement movement)
         {
             // load the enemy ship texture;
             EnemyAnimation = animation;
 
+            Movement = movement;
+
             // set the postion of th enemy ship
-            Position = position;
+            Position = movement.getPosition();
 
             // set the enemy to be active
             Active = true;
@@ -62,7 +65,7 @@ namespace ShooterTutorial.GameObjects
             Damage = 10;
 
             // Set how fast the enemy moves.
-            enemyMoveSpeed = 10;
+//            enemyMoveSpeed = 10;
 
             // set the value of the enemy
             Value = 100;
@@ -71,7 +74,10 @@ namespace ShooterTutorial.GameObjects
         public void Update(GameTime gameTime)
         {
             // the enemy always moves to the left.
-            Position.X -= enemyMoveSpeed;
+
+            Movement.update(gameTime);
+
+            Position = Movement.getPosition();
 
             // Update the postion of the anaimation
             EnemyAnimation.Position = Position;
@@ -92,7 +98,7 @@ namespace ShooterTutorial.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             // draw the animation
-            EnemyAnimation.Draw(spriteBatch);
+            EnemyAnimation.Draw(spriteBatch, Movement.getRotation());
         }
     }
 }
