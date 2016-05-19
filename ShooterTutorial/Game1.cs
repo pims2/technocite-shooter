@@ -20,7 +20,7 @@ namespace ShooterTutorial
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
-        public Player _player;
+        Player _player;
         Weapon _weapon;
 
         Texture2D _mainBackground;
@@ -80,7 +80,7 @@ namespace ShooterTutorial
         {
             // TODO: Add your initialization logic here
             _player = new Player();
-            _weapon = new Weapon(this);
+            _weapon = new Weapon(this, _player);
 
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
@@ -249,7 +249,11 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))
             {
+<<<<<<< HEAD
                 _weapon = new Weapon(this,_player);
+=======
+                _weapon = new Weapon(this, _player);
+>>>>>>> FishingCactus/master
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad2))
