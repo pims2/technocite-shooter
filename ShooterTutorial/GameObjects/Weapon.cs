@@ -21,6 +21,7 @@ namespace ShooterTutorial.GameObjects
             _laserSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
             _previousLaserSpawnTime = TimeSpan.Zero;
             _game = game;
+            _player = 
         }
 
         public virtual void Fire(GameTime gameTime)
@@ -43,7 +44,7 @@ namespace ShooterTutorial.GameObjects
         {
         }
 
-        public override void Fire(GameTime gameTime)
+        public override void Fire(GameTime gameTime, Player player)
         {
             // govern the rate of fire for our lasers
             if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
@@ -54,6 +55,27 @@ namespace ShooterTutorial.GameObjects
                 _game.AddLaser(LinearMovement.create(_game._player.Position, -10f, -30.0f * (float)Math.PI / 180.0f));
                 _game.AddLaser(LinearMovement.create(_game._player.Position, 0f, 0.0f));
                 _game.AddLaser(LinearMovement.create(_game._player.Position, 10f, 30.0f * (float)Math.PI / 180.0f));
+            }
+
+        }
+    }
+
+    class WaveWeapon : Weapon
+    {
+
+        public WaveWeapon(Game1 game) : base(game)
+        {
+        }
+
+        public override void Fire(GameTime gameTime)
+        {
+            // govern the rate of fire for our lasers
+            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
+            {
+                _previousLaserSpawnTime = gameTime.TotalGameTime;
+
+                // Add the laer to our list.
+                _game.AddLaser(LinearMovement.create(_game._player.Position, 0f, 0.0f));
             }
 
         }

@@ -249,12 +249,12 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))
             {
-                _weapon = new Weapon(this);
+                _weapon = new Weapon(this,_player);
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad2))
             {
-                _weapon = new TripleWeapon(this);
+                _weapon = new TripleWeapon(this, _player);
             }
 
             // Make sure that the player does not go out of bounds
