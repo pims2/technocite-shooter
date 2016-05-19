@@ -257,6 +257,16 @@ namespace ShooterTutorial
                 _weapon = new TripleWeapon(this, _player);
             }
 
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad3))
+            {
+                _weapon = new AdnWeapon(this, _player);
+            }
+
+            if (_currentKeyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                _weapon = new WaveWeapon(this, _player);
+            }
+
             // Make sure that the player does not go out of bounds
             _player.Position.X = MathHelper.Clamp(_player.Position.X, 0, GraphicsDevice.Viewport.Width - _player.Width);
             _player.Position.Y = MathHelper.Clamp(_player.Position.Y, 0, GraphicsDevice.Viewport.Height - _player.Height);
