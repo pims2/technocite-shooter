@@ -399,8 +399,10 @@ namespace ShooterTutorial
             // create an enemy
             Enemy enemy = new Enemy();
 
+            var m = new LinearMovement(position, new Vector2(-1f, 0f));
+            m.MoveSpeed = 10f;
             // init the enemy
-            enemy.Initialize(enemyAnimation, position);
+            enemy.Initialize(enemyAnimation, m);
 
             // Add the enemy to the active enemies list
             enemies.Add(enemy);
