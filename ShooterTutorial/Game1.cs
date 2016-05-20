@@ -96,7 +96,9 @@ namespace ShooterTutorial
             _weaponList.Add(new Bazooka(this, _player));
             _weaponList.Add(new WaveWeapon(this, _player));
             _weaponList.Add(new SinusShot(this, _player));
-
+            _weaponList.Add(new TripleWeaponRotateGHA(this, _player));
+            _weaponList.Add(new GravityBombing(this, _player));
+            _weaponList.Add(new CircularShoot(this, _player));
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
             _rectBackground = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -565,6 +567,22 @@ namespace ShooterTutorial
 
                     _weapon = powerup.Weapon;
                 }
+                for (var l = 0; l < laserBeams.Count; l++)
+                {
+                    laserRectangle = new Rectangle(
+                 (int)laserBeams[l].Position.X,
+                 (int)laserBeams[l].Position.Y,
+                 laserBeams[l].Width,
+                 laserBeams[l].Height);
+
+                    if (laserRectangle.Intersects(powerupRectangle))
+                    {
+                        powerup.Active = false;
+
+                        _weapon = powerup.Weapon;
+                    }
+                }
+
             }
         }
 
