@@ -23,6 +23,8 @@ namespace ShooterTutorial
         Player _player;
         Weapon _weapon;
 
+        List<Weapon> _weaponList;
+
         Texture2D _mainBackground;
         ParallaxingBackground _bgLayer1;
         ParallaxingBackground _bgLayer2;
@@ -88,6 +90,12 @@ namespace ShooterTutorial
             // TODO: Add your initialization logic here
             _player = new Player();
             _weapon = new Weapon(this, _player);
+
+            _weaponList = new List<Weapon>();
+
+            _weaponList.Add(new Bazooka(this, _player));
+            _weaponList.Add(new WaveWeapon(this, _player));
+            _weaponList.Add(new SinusShot(this, _player));
 
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
@@ -440,7 +448,10 @@ namespace ShooterTutorial
                         random.Next(100, GraphicsDevice.Viewport.Height - 100)
                         );
 
-                    powerup = new Powerup(enemyAnimation, position);
+
+                    int value = random.Next(_weaponList.Count);
+
+                    powerup = new Powerup(enemyAnimation, position, _weaponList[value]);
                     // add an enemy
                     //AddEnemy();
                 }
@@ -566,6 +577,8 @@ namespace ShooterTutorial
                 if (playerRectangle.Intersects(powerupRectangle))
                 {
                     powerup.Active = false;
+
+                    _weapon = powerup.Weapon;
                 }
             }
         }
