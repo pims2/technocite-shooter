@@ -19,6 +19,18 @@ namespace ShooterTutorial.GameObjects
 
         public double Time;
 
+        // Get the width of the enemy ship
+        public int Width
+        {
+            get { return PowerupAnimation.FrameWidth; }
+        }
+
+        // Get the height of the enemy ship.
+        public int Height
+        {
+            get { return PowerupAnimation.FrameHeight; }
+        }
+
         public Powerup(Animation animation, Vector2 position)
         {
             PowerupAnimation = animation;

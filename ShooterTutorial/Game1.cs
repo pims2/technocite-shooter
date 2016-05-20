@@ -483,7 +483,7 @@ namespace ShooterTutorial
 
         }
 
-      
+
         protected void UpdateCollision()
         {
 
@@ -502,7 +502,7 @@ namespace ShooterTutorial
                 _player.Height);
 
             // detect collisions between the player and all enemies.
-            for(var i = 0; i < enemies.Count; i++)
+            for (var i = 0; i < enemies.Count; i++)
             {
                 enemyRectangle = new Rectangle(
                    (int)enemies[i].Position.X,
@@ -551,6 +551,21 @@ namespace ShooterTutorial
                         // kill off the laserbeam
                         laserBeams[l].Active = false;
                     }
+                }
+            }
+
+            if (powerup != null)
+            {
+                var powerupRectangle = new Rectangle(
+                    (int)powerup.Position.X,
+                    (int)powerup.Position.Y,
+                    powerup.Width,
+                    powerup.Height);
+
+                // determine if the player and the enemy intersect.
+                if (playerRectangle.Intersects(powerupRectangle))
+                {
+                    powerup.Active = false;
                 }
             }
         }
