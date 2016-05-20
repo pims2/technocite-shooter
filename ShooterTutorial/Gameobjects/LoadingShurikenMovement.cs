@@ -71,7 +71,7 @@ namespace ShooterTutorial.GameObjects
             return ang;
         }
 
-        public static LinearMovement create(Vector2 position, float verticalOffset, float angle)
+        public static LoadingShurikenMovement create(Vector2 position, float verticalOffset, float angle)
         {
             // Adjust the position slightly to match the muzzle of the cannon.
             position.Y += 37 + verticalOffset;
@@ -82,7 +82,7 @@ namespace ShooterTutorial.GameObjects
             direction.X = (float)Math.Cos((double)angle);
             direction.Y = (float)Math.Sin((double)angle);
 
-            return new LinearMovement(position, direction);
+            return new LoadingShurikenMovement(position, direction);
         }
     }
 }
