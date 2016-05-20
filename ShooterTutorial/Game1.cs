@@ -51,9 +51,16 @@ namespace ShooterTutorial
         TimeSpan enemySpawnTime;
         TimeSpan previousSpawnTime;
 
+        TimeSpan powerupSpawnTime;
+        TimeSpan previousPowerupSpawnTime;
+        float powerupMinSpawnTime = 2.0f;
+        float powerupMaxSpawnTime = 8.0f;
+
         //Enemies
         Texture2D enemyTexture;
         List<Enemy> enemies;
+
+        Powerup powerup;
 
         // a random number gen
         Random random;
@@ -175,6 +182,8 @@ namespace ShooterTutorial
 
             // update the enemies
             UpdateEnemies(gameTime);
+
+            UpdatePowerup(gameTime);
 
             // update collisons
             UpdateCollision();
@@ -306,6 +315,11 @@ namespace ShooterTutorial
                 e.Draw(_spriteBatch);
             };
 
+            if(powerup!=null)
+            {
+                powerup.Draw(_spriteBatch);
+            }
+
             // draw explosions
             foreach(var e in explosions)
             {
@@ -382,6 +396,56 @@ namespace ShooterTutorial
                     enemies.Remove(enemies[i]);
                 }
             }
+        }
+
+        protected void UpdatePowerup(GameTime gameTime)
+        {
+            if (powerup != null)
+            {
+                powerup.Update(gameTime);
+
+                if (!powerup.Active)
+                {
+                    powerup = null;
+                    previousPowerupSpawnTime = gameTime.TotalGameTime;
+
+
+                    powerupSpawnTime =TimeSpan.FromSeconds(powerupMinSpawnTime + ( powerupMaxSpawnTime - powerupMinSpawnTime ) * random.NextDouble());
+                }
+            }
+            else
+            {
+                if (gameTime.TotalGameTime - previousPowerupSpawnTime > powerupSpawnTime)
+                {
+                    previousPowerupSpawnTime = gameTime.TotalGameTime;
+
+
+                    Animation enemyAnimation = new Animation();
+
+                    // Init the animation with the correct 
+                    // animation information
+                    enemyAnimation.Initialize(enemyTexture,
+                        Vector2.Zero,
+                        47,
+                        61,
+                        8,
+                        30,
+                        Color.White,
+                        1f,
+                        true);
+
+                    // randomly generate the postion of the enemy
+                    Vector2 position = new Vector2(
+                        random.Next(100, GraphicsDevice.Viewport.Width - 100),
+                        random.Next(100, GraphicsDevice.Viewport.Height - 100)
+                        );
+
+                    powerup = new Powerup(enemyAnimation, position);
+                    // add an enemy
+                    //AddEnemy();
+                }
+            }
+
         }
 
         protected void AddEnemy()

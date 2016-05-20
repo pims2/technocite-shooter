@@ -143,6 +143,7 @@
     <Compile Include="GameObjects\LinearMovementRotation.cs" />
     <Compile Include="GameObjects\LinearMovement.cs" />
     <Compile Include="GameObjects\LoadingShurikenMovement.cs" />
+    <Compile Include="GameObjects\Powerup.cs" />
     <Compile Include="GameObjects\TripleWeapon.cs" />
     <Compile Include="GameObjects\VariableSpeedMovement.cs" />
     <Compile Include="GameObjects\VariableSpeedWeapon.cs" />
