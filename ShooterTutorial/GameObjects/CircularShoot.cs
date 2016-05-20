@@ -11,7 +11,7 @@ namespace ShooterTutorial.GameObjects
     {
         int nbBullets = 20;
 
-        public CircularShoot(Game1 game) : base(game)
+        public CircularShoot(Game1 game, Player player) : base(game, player)
         {
         }
 
@@ -24,7 +24,7 @@ namespace ShooterTutorial.GameObjects
 
                 for (var i = 0; i < nbBullets; i++)
                 {
-                    _game.AddLaser(linearMovement.Create(_game._player.Position, -10f, 360.0f / nbBullets * i));
+                    _game.AddLaser(LinearMovement.create(_player.Position, -10f, 360.0f / nbBullets * i));
                 }
                 // Add the laer to our list.
 

@@ -11,7 +11,7 @@ namespace ShooterTutorial.GameObjects
     class WaveWeapon : Weapon
     {
 
-        public WaveWeapon(Game1 game) : base(game)
+        public WaveWeapon(Game1 game, Player player) : base(game, player)
         {
         }
 
@@ -23,7 +23,7 @@ namespace ShooterTutorial.GameObjects
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
                 // Add the laer to our list.
-                _game.AddLaser(LinearMovement.create(_game._player.Position, 0f, 0.0f));
+                _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0.0f));
             }
 
         }

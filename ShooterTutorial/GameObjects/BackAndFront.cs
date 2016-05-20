@@ -10,7 +10,7 @@ namespace ShooterTutorial.GameObjects
     class BackAndFront : Weapon
     {
 
-        public BackAndFront(Game1 game) : base(game)
+        public BackAndFront(Game1 game, Player player) : base(game, player)
         {
         }
 
@@ -22,8 +22,8 @@ namespace ShooterTutorial.GameObjects
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
                 // Add the laer to our list.
-                _game.AddLaser(linearMovement.Create(_game._player.Position, -10f, 0.0f));
-                _game.AddLaser(linearMovement.Create(_game._player.Position, -10f, 180.0f));
+                _game.AddLaser(LinearMovement.create(_player.Position, -10f, 0.0f));
+                _game.AddLaser(LinearMovement.create(_player.Position, -10f, 180.0f));
 
 
             }

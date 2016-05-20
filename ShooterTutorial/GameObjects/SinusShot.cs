@@ -10,7 +10,7 @@ namespace ShooterTutorial.GameObjects
     class SinusShot : Weapon
     {
 
-        public SinusShot(Game1 game) : base(game)
+        public SinusShot(Game1 game, Player player) : base(game, player)
         {
             const float SECONDS_IN_MINUTE = 60f;
             const float RATE_OF_FIRE = 500f;
@@ -24,8 +24,8 @@ namespace ShooterTutorial.GameObjects
             {
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
-                _game.AddLaser(SinusoidaleMovement.Create(_game._player.Position, -10f, -10, 20));
-                _game.AddLaser(SinusoidaleMovement.Create(_game._player.Position, -10f, 10, 20));
+                _game.AddLaser(SinusoidaleMovement.Create(_player.Position, -10f, -10, 20));
+                _game.AddLaser(SinusoidaleMovement.Create(_player.Position, -10f, 10, 20));
                 // Add the laer to our list.
 
             }

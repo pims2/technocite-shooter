@@ -60,24 +60,4 @@ namespace ShooterTutorial.GameObjects
         }
     }
 
-    class WaveWeapon : Weapon
-    {
-
-        public WaveWeapon(Game1 game, Player player) : base(game, player)
-        {
-        }
-
-        public override void Fire(GameTime gameTime)
-        {
-            // govern the rate of fire for our lasers
-            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
-            {
-                _previousLaserSpawnTime = gameTime.TotalGameTime;
-
-                // Add the laer to our list.
-                _game.AddLaser(WaveMovement.create(_player.Position, -50f, 50, 50));
-            }
-
-        }
-    }
 }

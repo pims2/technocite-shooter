@@ -30,11 +30,11 @@ namespace ShooterTutorial.GameObjects
             position.X += speed * directionOfMove.X;
             position.Y += speed * directionOfMove.Y;
         }
-        public Vector2 GetPosition()
+        public Vector2 getPosition()
         {
             return position;
         }
-        public float GetRotation()
+        public float getRotation()
         {
             return angle;
         }

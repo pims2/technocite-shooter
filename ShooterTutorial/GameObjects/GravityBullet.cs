@@ -10,7 +10,7 @@ namespace ShooterTutorial.GameObjects
     class GravityBullet : Weapon
     {
 
-        public GravityBullet(Game1 game) : base(game)
+        public GravityBullet(Game1 game, Player player) : base(game, player)
         {
             const float SECONDS_IN_MINUTE = 60f;
             const float RATE_OF_FIRE = 500f;
@@ -24,10 +24,10 @@ namespace ShooterTutorial.GameObjects
             {
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
                 Vector2 gravity = new Vector2(-5, 1);
-                _game.AddLaser(GravityMovement.Create(_game._player.Position, -10f, 0, gravity, 20));
+                _game.AddLaser(GravityMovement.Create(_player.Position, -10f, 0, gravity, 20));
                 gravity = new Vector2(-5, -1);
-                _game.AddLaser(GravityMovement.Create(_game._player.Position, -10f, 0, gravity, 20));
-                _game.AddLaser(linearMovement.Create(_game._player.Position, -10f, 0));
+                _game.AddLaser(GravityMovement.Create(_player.Position, -10f, 0, gravity, 20));
+                _game.AddLaser(LinearMovement.create(_player.Position, -10f, 0));
 
                 // Add the laer to our list.
 
