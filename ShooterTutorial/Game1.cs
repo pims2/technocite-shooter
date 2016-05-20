@@ -427,21 +427,6 @@ namespace ShooterTutorial
                 {
                     previousPowerupSpawnTime = gameTime.TotalGameTime;
 
-
-                    Animation enemyAnimation = new Animation();
-
-                    // Init the animation with the correct 
-                    // animation information
-                    enemyAnimation.Initialize(enemyTexture,
-                        Vector2.Zero,
-                        47,
-                        61,
-                        8,
-                        30,
-                        Color.White,
-                        1f,
-                        true);
-
                     // randomly generate the postion of the enemy
                     Vector2 position = new Vector2(
                         random.Next(100, GraphicsDevice.Viewport.Width - 100),
@@ -451,9 +436,9 @@ namespace ShooterTutorial
 
                     int value = random.Next(_weaponList.Count);
 
-                    powerup = new Powerup(enemyAnimation, position, _weaponList[value]);
-                    // add an enemy
-                    //AddEnemy();
+                    var weapon = _weaponList[value];
+
+                    powerup = new Powerup(weapon.GetPowerupAnimation(), position, weapon);
                 }
             }
 

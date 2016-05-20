@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ShooterTutorial.ShooterContentTypes;
 
 namespace ShooterTutorial.GameObjects
 {
@@ -36,6 +38,27 @@ namespace ShooterTutorial.GameObjects
 
             }
 
+        }
+
+        public virtual Animation GetPowerupAnimation()
+        {
+            var texture = _game.Content.Load<Texture2D>("Graphics\\mineAnimation");
+
+            Animation animation = new Animation();
+
+            // Init the animation with the correct 
+            // animation information
+            animation.Initialize(texture,
+                Vector2.Zero,
+                47,
+                61,
+                8,
+                30,
+                Color.White,
+                1f,
+                true);
+
+            return animation;
         }
     }
 

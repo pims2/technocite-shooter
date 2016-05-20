@@ -32,6 +32,27 @@ namespace ShooterTutorial.GameObjects
 
             }
         }
+
+        public override Animation GetPowerupAnimation()
+        {
+            var texture = _game.Content.Load<Texture2D>("Graphics\\explosion");
+
+            Animation animation = new Animation();
+
+            // Init the animation with the correct 
+            // animation information
+            animation.Initialize(texture,
+                Vector2.Zero,
+                134,
+                134,
+                12,
+                30,
+                Color.White,
+                1.0f,
+                true);
+
+            return animation;
+        }
     }
 
 }
