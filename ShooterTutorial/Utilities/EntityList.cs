@@ -4,9 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShooterTutorial.Utilities
 {
-    class EntityList<T> where T : IUpdateable2, IDrawable2
+    class EntityList<T> where T : IUpdateable2, IDrawable2, new()
     {
         private List<T> list;
+        private EntityPool<T> pool;
         private GraphicScene scene;
 
         public int Count
@@ -18,6 +19,8 @@ namespace ShooterTutorial.Utilities
         {
             this.scene = scene;
             list = new List<T>();
+            pool = new EntityPool<T>();
+            pool.Initialize(0);
         }
 
         public T this[int index]
@@ -25,10 +28,13 @@ namespace ShooterTutorial.Utilities
             get { return list[index]; }
         }
 
-        public void Add(T item)
+        public T Add()
         {
+            T item = pool.Get();
             list.Add(item);
             scene.Add(item);
+
+            return item;
         }
 
         public void Update(Game game, GameTime gameTime)
@@ -39,9 +45,11 @@ namespace ShooterTutorial.Utilities
 
                 if (!list[i].Active)
                 {
-                    scene.Remove(list[i]);
-                    list.Remove(list[i]);
-                }
+                    T item = list[i];
+                    pool.Put(item);
+                    scene.Remove(item);
+                    list.Remove(item);
+                };
             }
         }
     }

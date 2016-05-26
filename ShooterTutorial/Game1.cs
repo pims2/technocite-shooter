@@ -334,14 +334,9 @@ namespace ShooterTutorial
                 Color.White,
                 1f,
                 true);
-
-            Laser laser = new Laser();
-
-            // init the laser
-            laser.Initialize(laserAnimation, movement);
-
-            laserBeams.Add(laser);
-
+         
+            laserBeams.Add().Initialize(laserAnimation, movement);
+            
             /* todo: add code to create a laser. */
             //laserSoundInstance.Play();
         }
@@ -427,11 +422,9 @@ namespace ShooterTutorial
 
             var m = new LinearMovement(position, new Vector2(-1f, 0f));
             m.MoveSpeed = 10f;
-            // init the enemy
-            enemy.Initialize(enemyAnimation, m);
 
             // Add the enemy to the active enemies list
-            enemies.Add(enemy);
+            enemies.Add().Initialize(enemyAnimation, m);
 
         }
 
@@ -554,10 +547,7 @@ namespace ShooterTutorial
                 1.0f,
                 true);
 
-            Explosion explosion = new Explosion();
-            explosion.Initialize(explosionAnimation, enemyPosition);
-
-            explosions.Add(explosion);
+            explosions.Add().Initialize(explosionAnimation, enemyPosition);
         }
     }
 }
