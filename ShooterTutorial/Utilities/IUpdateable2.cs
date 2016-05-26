@@ -10,7 +10,7 @@ namespace ShooterTutorial.Utilities
 {
     interface IUpdateable2
     {
-        void Update(GameTime gameTime);
+        void Update(Game game, GameTime gameTime);
 
         bool Active { get; }
     }

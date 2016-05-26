@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShooterTutorial.Utilities;
 using ShooterTutorial;
 
 
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Laser 
+    public class Laser : IUpdateable2, IDrawable2
     {
 
         // animation the represents the laser animation.
@@ -23,7 +24,13 @@ namespace ShooterTutorial.GameObjects
         int Damage = 10;
 
         // set the laser to active
-        public bool Active;
+        public bool Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
+
+        private bool _Active;
 
         // Range of the laser.
         int Range;
@@ -50,7 +57,7 @@ namespace ShooterTutorial.GameObjects
             Active = true;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(Game game, GameTime gameTime)
         {
             Movement.update(gameTime);
 
@@ -58,6 +65,8 @@ namespace ShooterTutorial.GameObjects
 
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
+
+            _Active = Position.X < game.GraphicsDevice.Viewport.Width;
         }
 
         public void Draw(SpriteBatch spriteBatch)

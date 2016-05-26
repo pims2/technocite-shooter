@@ -2,16 +2,23 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ShooterTutorial;
+using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    class Explosion
+    class Explosion : IUpdateable2, IDrawable2
     {
         public Animation explosionAnimation;
 
         public Vector2 Position;
 
-        public bool Active;
+        public bool Active
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
+
+        private bool _Active;
 
         int timeToLive;
 
@@ -42,7 +49,7 @@ namespace ShooterTutorial.GameObjects
         }
 
 
-        public void Update(GameTime gameTime)
+        public void Update(Game game, GameTime gameTime)
         {
             explosionAnimation.Update(gameTime);
 

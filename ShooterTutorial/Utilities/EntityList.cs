@@ -28,11 +28,11 @@ namespace ShooterTutorial.Utilities
             list.Add(item);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(Game game, GameTime gameTime)
         {
             for (var i = 0; i < list.Count; i++)
             {
-                list[i].Update(gameTime);
+                list[i].Update(game, gameTime);
 
                 if (!list[i].Active)
                 {

@@ -48,7 +48,7 @@ namespace ShooterTutorial
         // texture to hold the laser.
         Texture2D laserTexture;
 
-        List<Laser> laserBeams;
+        EntityList<Laser> laserBeams;
 
 
         // The rate at which enemies appear.
@@ -70,7 +70,7 @@ namespace ShooterTutorial
         Random random;
 
         // Collections of explosions
-        List<Explosion> explosions;
+        EntityList<Explosion> explosions;
 
         //Texture to hold explosion animation.
         Texture2D explosionTexture;
@@ -108,7 +108,7 @@ namespace ShooterTutorial
             TouchPanel.EnabledGestures = GestureType.FreeDrag;
 
             // init our laser
-            laserBeams = new List<Laser>();
+            laserBeams = new EntityList<Laser>();
 
             // Initialize the enemies list
             enemies = new EntityList<Enemy>();
@@ -119,7 +119,7 @@ namespace ShooterTutorial
             // init our random number generator
             random = new Random();
 
-            explosions = new List<Explosion>();
+            explosions = new EntityList<Explosion>();
             
             base.Initialize();
         }
@@ -207,13 +207,7 @@ namespace ShooterTutorial
 
         private void UpdateExplosions(GameTime gameTime)
         {
-            for (var e = 0; e < explosions.Count; e++ )
-            {
-                explosions[e].Update(gameTime);
-
-                if (!explosions[e].Active)
-                    explosions.Remove(explosions[e]);
-            }
+            explosions.Update(this, gameTime);
         }
 
         void UpdatePlayer(GameTime gameTime)
@@ -315,11 +309,7 @@ namespace ShooterTutorial
             _player.Draw(_spriteBatch);
 
             // Draw the lasers.
-            foreach (var l in laserBeams)
-            {
-                l.Draw(_spriteBatch);
-            }
-
+            laserBeams.Draw(_spriteBatch);
 
             enemies.Draw(_spriteBatch);
 
@@ -329,10 +319,7 @@ namespace ShooterTutorial
             }
 
             // draw explosions
-            foreach(var e in explosions)
-            {
-                e.Draw(_spriteBatch);
-            };
+            explosions.Draw(_spriteBatch);
 
             // Stop drawing
             _spriteBatch.End(); 
@@ -343,19 +330,7 @@ namespace ShooterTutorial
         
         protected void UpdateLasers(GameTime gameTime)
         {
-           
-            // update laserbeams
-            for (var i = 0; i < laserBeams.Count;i++ )
-            {
-
-                laserBeams[i].Update(gameTime);
-
-                // Remove the beam when its deactivated or is at the end of the screen.
-                if (!laserBeams[i].Active || laserBeams[i].Position.X > GraphicsDevice.Viewport.Width)
-                {
-                    laserBeams.Remove(laserBeams[i]);
-                }
-            }
+            laserBeams.Update(this, gameTime);
         }
 
         public void AddLaser(IMovement movement)
@@ -395,7 +370,7 @@ namespace ShooterTutorial
                 AddEnemy();
             }
 
-            enemies.Update(gameTime);
+            enemies.Update(this, gameTime);
         }
 
         protected void UpdatePowerup(GameTime gameTime)

@@ -77,7 +77,7 @@ namespace ShooterTutorial.GameObjects
             Value = 100;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(Game game, GameTime gameTime)
         {
             // the enemy always moves to the left.
 
