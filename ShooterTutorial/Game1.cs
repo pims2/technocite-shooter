@@ -21,6 +21,7 @@ namespace ShooterTutorial
 
         GraphicsDeviceManager _graphics;
         SpriteBatch _spriteBatch;
+        GraphicScene _scene;
         Player _player;
         Weapon _weapon;
 
@@ -89,7 +90,7 @@ namespace ShooterTutorial
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            _scene = new GraphicScene();
             _player = new Player();
             _weapon = new Weapon(this, _player);
 
@@ -108,10 +109,10 @@ namespace ShooterTutorial
             TouchPanel.EnabledGestures = GestureType.FreeDrag;
 
             // init our laser
-            laserBeams = new EntityList<Laser>();
+            laserBeams = new EntityList<Laser>(_scene);
 
             // Initialize the enemies list
-            enemies = new EntityList<Enemy>();
+            enemies = new EntityList<Enemy>(_scene);
 
             //used to determine how fast the enemies will respawn.
             enemySpawnTime = TimeSpan.FromSeconds(1.0f);
@@ -119,7 +120,7 @@ namespace ShooterTutorial
             // init our random number generator
             random = new Random();
 
-            explosions = new EntityList<Explosion>();
+            explosions = new EntityList<Explosion>(_scene);
             
             base.Initialize();
         }
@@ -308,18 +309,12 @@ namespace ShooterTutorial
             // Draw the Player
             _player.Draw(_spriteBatch);
 
-            // Draw the lasers.
-            laserBeams.Draw(_spriteBatch);
-
-            enemies.Draw(_spriteBatch);
-
             if(powerup!=null)
             {
                 powerup.Draw(_spriteBatch);
             }
 
-            // draw explosions
-            explosions.Draw(_spriteBatch);
+            _scene.Draw(_spriteBatch);
 
             // Stop drawing
             _spriteBatch.End(); 

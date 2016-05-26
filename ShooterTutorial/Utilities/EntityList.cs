@@ -7,14 +7,16 @@ namespace ShooterTutorial.Utilities
     class EntityList<T> where T : IUpdateable2, IDrawable2
     {
         private List<T> list;
+        private GraphicScene scene;
 
         public int Count
         {
             get { return list.Count; }
         }
 
-        public EntityList()
+        public EntityList( GraphicScene scene )
         {
+            this.scene = scene;
             list = new List<T>();
         }
 
@@ -26,6 +28,7 @@ namespace ShooterTutorial.Utilities
         public void Add(T item)
         {
             list.Add(item);
+            scene.Add(item);
         }
 
         public void Update(Game game, GameTime gameTime)
@@ -36,16 +39,9 @@ namespace ShooterTutorial.Utilities
 
                 if (!list[i].Active)
                 {
+                    scene.Remove(list[i]);
                     list.Remove(list[i]);
                 }
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            for (var i = 0; i < list.Count; i++)
-            {
-                list[i].Draw(spriteBatch);
             }
         }
     }
