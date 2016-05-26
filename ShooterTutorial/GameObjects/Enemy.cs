@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShooterTutorial.Utilities;
 using ShooterTutorial;
 
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Enemy
+    public class Enemy : IUpdateable2, IDrawable2
     {
         // animation represneting the enemy.
         public Animation EnemyAnimation;
@@ -18,7 +19,12 @@ namespace ShooterTutorial.GameObjects
         public IMovement Movement;
 
         // state of the enemy ship
-        public bool Active;
+        public bool Active
+        {
+            get { return _Active; }
+        }
+
+        private bool _Active;
 
         // Hit points of the enemy, if this goes
         // to zero the enemy dies.      
@@ -56,7 +62,7 @@ namespace ShooterTutorial.GameObjects
             Position = movement.getPosition();
 
             // set the enemy to be active
-            Active = true;
+            _Active = true;
 
             // set the health of the enemy
             Health = 10;
@@ -90,7 +96,7 @@ namespace ShooterTutorial.GameObjects
             if (Position.X < -Width || Health <= 0)
             {
                 //deactivate the enemy
-                Active = false;
+                _Active = false;
 
             }
         }

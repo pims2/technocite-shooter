@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using ShooterTutorial.GameObjects;
+using ShooterTutorial.Utilities;
 using ShooterTutorial.ShooterContentTypes;
 
 
@@ -46,6 +47,7 @@ namespace ShooterTutorial
 
         // texture to hold the laser.
         Texture2D laserTexture;
+
         List<Laser> laserBeams;
 
 
@@ -60,7 +62,7 @@ namespace ShooterTutorial
 
         //Enemies
         Texture2D enemyTexture;
-        List<Enemy> enemies;
+        EntityList<Enemy> enemies;
 
         Powerup powerup;
 
@@ -109,7 +111,7 @@ namespace ShooterTutorial
             laserBeams = new List<Laser>();
 
             // Initialize the enemies list
-            enemies = new List<Enemy>();
+            enemies = new EntityList<Enemy>();
 
             //used to determine how fast the enemies will respawn.
             enemySpawnTime = TimeSpan.FromSeconds(1.0f);
@@ -319,11 +321,7 @@ namespace ShooterTutorial
             }
 
 
-            // draw the enemies
-            foreach(var e in enemies)
-            {
-                e.Draw(_spriteBatch);
-            };
+            enemies.Draw(_spriteBatch);
 
             if(powerup!=null)
             {
@@ -348,16 +346,16 @@ namespace ShooterTutorial
            
             // update laserbeams
             for (var i = 0; i < laserBeams.Count;i++ )
+            {
+
+                laserBeams[i].Update(gameTime);
+
+                // Remove the beam when its deactivated or is at the end of the screen.
+                if (!laserBeams[i].Active || laserBeams[i].Position.X > GraphicsDevice.Viewport.Width)
                 {
-
-                    laserBeams[i].Update(gameTime);
-
-                    // Remove the beam when its deactivated or is at the end of the screen.
-                    if (!laserBeams[i].Active || laserBeams[i].Position.X > GraphicsDevice.Viewport.Width)
-                    {
-                        laserBeams.Remove(laserBeams[i]);
-                    }
+                    laserBeams.Remove(laserBeams[i]);
                 }
+            }
         }
 
         public void AddLaser(IMovement movement)
@@ -397,15 +395,7 @@ namespace ShooterTutorial
                 AddEnemy();
             }
 
-            // update the enemies
-            for (var i = 0; i < enemies.Count; i++)
-            {
-                enemies[i].Update(gameTime);
-                if (!enemies[i].Active)
-                {
-                    enemies.Remove(enemies[i]);
-                }
-            }
+            enemies.Update(gameTime);
         }
 
         protected void UpdatePowerup(GameTime gameTime)
