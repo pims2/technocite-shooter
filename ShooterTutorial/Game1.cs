@@ -92,6 +92,7 @@ namespace ShooterTutorial
         {
             _scene = new GraphicScene();
             _player = new Player();
+            _scene.Add(_player);
             _weapon = new Weapon(this, _player);
 
             _weaponList = new List<Weapon>();
@@ -305,15 +306,6 @@ namespace ShooterTutorial
             _bgLayer1.Draw(_spriteBatch);
             _bgLayer2.Draw(_spriteBatch);
 
-
-            // Draw the Player
-            _player.Draw(_spriteBatch);
-
-            if(powerup!=null)
-            {
-                powerup.Draw(_spriteBatch);
-            }
-
             _scene.Draw(_spriteBatch);
 
             // Stop drawing
@@ -376,6 +368,7 @@ namespace ShooterTutorial
 
                 if (!powerup.Active)
                 {
+                    _scene.Remove(powerup);
                     powerup = null;
                     previousPowerupSpawnTime = gameTime.TotalGameTime;
 
@@ -401,6 +394,7 @@ namespace ShooterTutorial
                     var weapon = _weaponList[value];
 
                     powerup = new Powerup(weapon.GetPowerupAnimation(), position, weapon);
+                    _scene.Add(powerup);
                 }
             }
 

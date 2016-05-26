@@ -26,8 +26,15 @@ namespace ShooterTutorial.Utilities
             ObjectList.Remove(_object);
         }
 
+        private static int CompareLayer(IDrawable2 a, IDrawable2 b)
+        {
+            return a.Layer - b.Layer;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
+            ObjectList.Sort( CompareLayer );
+
             foreach( var o in ObjectList )
             {
                 o.Draw(spriteBatch);

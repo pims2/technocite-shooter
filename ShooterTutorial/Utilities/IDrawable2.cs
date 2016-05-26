@@ -9,6 +9,7 @@ namespace ShooterTutorial.Utilities
 {
     interface IDrawable2
     {
+        int Layer { get; }
         void Draw(SpriteBatch spriteBatch);
     }
 }

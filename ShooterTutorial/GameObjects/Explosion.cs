@@ -22,6 +22,11 @@ namespace ShooterTutorial.GameObjects
 
         int timeToLive;
 
+        public int Layer
+        {
+            get { return 3; }
+        }
+
         public int Height
         {
             get

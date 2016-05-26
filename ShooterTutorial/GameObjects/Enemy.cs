@@ -18,6 +18,11 @@ namespace ShooterTutorial.GameObjects
 
         public IMovement Movement;
 
+        public int Layer
+        {
+            get { return 2; }
+        }
+
         // state of the enemy ship
         public bool Active
         {

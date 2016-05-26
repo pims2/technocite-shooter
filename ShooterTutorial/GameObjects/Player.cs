@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Player
+    public class Player :IDrawable2
     {
         public Animation PlayerAnimation;
 
@@ -19,6 +20,11 @@ namespace ShooterTutorial.GameObjects
 
         // Amount of hit points the player has
         public int Health;
+
+        public int Layer
+        {
+            get { return 2; }
+        }
 
         public int Width
         { get { return PlayerAnimation.FrameWidth; } }

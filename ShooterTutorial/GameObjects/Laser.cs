@@ -23,6 +23,11 @@ namespace ShooterTutorial.GameObjects
         // The damage the laser deals.
         int Damage = 10;
 
+        public int Layer
+        {
+            get { return 1; }
+        }
+
         // set the laser to active
         public bool Active
         {

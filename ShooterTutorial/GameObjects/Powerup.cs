@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using ShooterTutorial.Utilities; 
+
 namespace ShooterTutorial.GameObjects
 {
-    class Powerup
+    class Powerup : IDrawable2
     {
         public Animation PowerupAnimation;
 
@@ -20,6 +22,11 @@ namespace ShooterTutorial.GameObjects
         public double Time;
 
         public Weapon Weapon;
+
+        public int Layer
+        {
+            get { return 10; }
+        }
 
         // Get the width of the enemy ship
         public int Width
