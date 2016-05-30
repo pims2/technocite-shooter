@@ -34,7 +34,7 @@ namespace ShooterTutorial.GameObjects
             {
                 _previousLaserSpawnTime = gameTime.TotalGameTime;
 
-                _game.AddLaser( LinearMovement.create(_player.Position, 0f, 0f, 0f) );
+                _game.AddLaser( LinearMovement.create(_player.Position, 0f, 0f) );
 
             }
 
