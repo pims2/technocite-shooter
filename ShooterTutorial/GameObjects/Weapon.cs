@@ -11,11 +11,20 @@ namespace ShooterTutorial.GameObjects
 {
     class Weapon
     {
+        protected enum State
+        {
+            Ready,
+            Fire,
+            Wait
+        };
+   
         // govern how fast our laser can fire.
         protected TimeSpan _laserSpawnTime;
         protected TimeSpan _previousLaserSpawnTime;
         protected Game1 _game;
         protected Player _player;
+        protected State _state;
+        protected Boolean _itMustFire;
 
         public Weapon(Game1 game, Player player)
         {
@@ -25,19 +34,42 @@ namespace ShooterTutorial.GameObjects
             _previousLaserSpawnTime = TimeSpan.Zero;
             _game = game;
             _player = player;
+            _state = State.Ready;
+            _itMustFire = false;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            switch (_state)
+            {
+                case State.Ready:
+                    if (_itMustFire)
+                    {
+                        _state = State.Fire;
+                    }
+                    break;
+                case State.Fire:
+                    _previousLaserSpawnTime = gameTime.TotalGameTime;
+                    _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0f));
+                    _state = State.Wait;
+
+                    break;
+                case State.Wait:
+                    // govern the rate of fire for our lasers
+                    if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
+                    {
+                        _itMustFire = false;
+                        _state = State.Ready;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         public virtual void Fire(GameTime gameTime)
         {
-            // govern the rate of fire for our lasers
-            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
-            {
-                _previousLaserSpawnTime = gameTime.TotalGameTime;
-
-                _game.AddLaser( LinearMovement.create(_player.Position, 0f, 0f) );
-
-            }
-
+            _itMustFire = true;
         }
 
         public virtual Animation GetPowerupAnimation()

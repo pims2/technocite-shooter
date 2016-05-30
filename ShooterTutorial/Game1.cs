@@ -191,6 +191,8 @@ namespace ShooterTutorial
             _bgLayer1.Update(gameTime);
             _bgLayer2.Update(gameTime);
 
+            _weapon.Update(gameTime);
+
             // update lasers
             UpdateLasers(gameTime);
 
