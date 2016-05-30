@@ -115,7 +115,7 @@ namespace ShooterTutorial
         {
             if (Active)
             {
-                spriteBatch.Draw(spriteStrip, new Vector2(destinationRect.X, destinationRect.Y), sourceRect, Color.White, rotate, 0.5f * sourceRect.Size.ToVector2(), scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(spriteStrip, new Vector2(destinationRect.X, destinationRect.Y), sourceRect, _color, rotate, 0.5f * sourceRect.Size.ToVector2(), scale, SpriteEffects.None, 0f);
             }
 
         }
