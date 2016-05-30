@@ -461,7 +461,7 @@ namespace ShooterTutorial
                 if (playerRectangle.Intersects(enemyRectangle))
                 {
                     // kill off the enemy
-                    enemies[i].DealDamage(100);
+                    enemies[i].DealDamage(10);
                     _player.Damage(enemies[i].Damage);
                 }
 
@@ -477,7 +477,7 @@ namespace ShooterTutorial
                     // test the bounds of the laser and enemy
                     if (laserRectangle.Intersects(enemyRectangle))
                     {
-                        enemies[i].DealDamage(50);
+                        enemies[i].DealDamage(1);
                         laserBeams[l].Active = false;
                     }
                 }
