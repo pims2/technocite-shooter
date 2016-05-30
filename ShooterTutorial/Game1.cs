@@ -191,6 +191,8 @@ namespace ShooterTutorial
             _bgLayer1.Update(gameTime);
             _bgLayer2.Update(gameTime);
 
+            _weapon.Update(gameTime);
+
             // update lasers
             UpdateLasers(gameTime);
 
@@ -261,7 +263,7 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.Space) || _currentGamePadState.Buttons.X == ButtonState.Pressed)
             {
-                _weapon.Fire(gameTime);
+                _weapon.Shoot();
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))

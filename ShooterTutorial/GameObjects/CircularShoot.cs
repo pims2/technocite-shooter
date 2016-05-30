@@ -15,21 +15,12 @@ namespace ShooterTutorial.GameObjects
         {
         }
 
-        public override void Fire(GameTime gameTime)
+        protected override void Fire(GameTime gameTime)
         {
-            // govern the rate of fire for our lasers
-            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
+            for (var i = 0; i < nbBullets; i++)
             {
-                _previousLaserSpawnTime = gameTime.TotalGameTime;
-
-                for (var i = 0; i < nbBullets; i++)
-                {
-                    _game.AddLaser(LinearMovement.create(_player.Position, -10f, 360.0f / nbBullets * i));
-                }
-                // Add the laer to our list.
-
+                _game.AddLaser(LinearMovement.create(_player.Position, -10f, 360.0f / nbBullets * i));
             }
-
         }
     }
 }
