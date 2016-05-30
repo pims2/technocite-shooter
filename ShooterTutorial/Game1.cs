@@ -426,7 +426,7 @@ namespace ShooterTutorial
             m.MoveSpeed = 10f;
 
             // Add the enemy to the active enemies list
-            enemies.Add().Initialize(enemyAnimation, m);
+            enemies.Add().Initialize(this, enemyAnimation, m);
 
         }
 
@@ -461,11 +461,7 @@ namespace ShooterTutorial
                 if (playerRectangle.Intersects(enemyRectangle))
                 {
                     // kill off the enemy
-                    enemies[i].Health = 0;
-
-                    // Show the explosion where the enemy was...
-                    AddExplosion(enemies[i].Position);
-
+                    enemies[i].DealDamage(100);
                     _player.Damage(enemies[i].Damage);
                 }
 
@@ -481,14 +477,7 @@ namespace ShooterTutorial
                     // test the bounds of the laser and enemy
                     if (laserRectangle.Intersects(enemyRectangle))
                     {
-
-                        // Show the explosion where the enemy was...
-                        AddExplosion(enemies[i].Position);
-
-                        // kill off the enemy
-                        enemies[i].Health = 0;
-
-                        // kill off the laserbeam
+                        enemies[i].DealDamage(50);
                         laserBeams[l].Active = false;
                     }
                 }

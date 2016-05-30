@@ -9,6 +9,8 @@ namespace ShooterTutorial.GameObjects
 {
     public class Enemy : IUpdateable2, IDrawable2
     {
+        private StateMachine _stateMachine;
+
         // animation represneting the enemy.
         public Animation EnemyAnimation;
 
@@ -54,10 +56,15 @@ namespace ShooterTutorial.GameObjects
             get { return EnemyAnimation.FrameHeight; }
         }
 
+        private Game1 _game;
+
         public void Initialize(
+            Game1 game,
             Animation animation,
             IMovement movement)
         {
+            _game = game;
+
             // load the enemy ship texture;
             EnemyAnimation = animation;
 
@@ -70,20 +77,29 @@ namespace ShooterTutorial.GameObjects
             _Active = true;
 
             // set the health of the enemy
-            Health = 10;
+            Health = 100;
 
             // Set the amount of damage the enemy does
             Damage = 10;
 
             // Set how fast the enemy moves.
-//            enemyMoveSpeed = 10;
+            //            enemyMoveSpeed = 10;
 
             // set the value of the enemy
             Value = 100;
+
+            _stateMachine = new StateMachine(new Phase1State(this));
         }
 
         public void Update(Game game, GameTime gameTime)
         {
+            if (Health <= 0)
+            {
+                _stateMachine.ChangeState(new DeadState(this));
+            }
+
+            _stateMachine.Update(gameTime);
+
             // the enemy always moves to the left.
 
             Movement.update(gameTime);
@@ -98,7 +114,7 @@ namespace ShooterTutorial.GameObjects
 
             /* If the enenmy is past the screen or its
              * health reaches 0 then deactivate it. */
-            if (Position.X < -Width || Health <= 0)
+            if (Position.X < -Width)
             {
                 //deactivate the enemy
                 _Active = false;
@@ -110,6 +126,69 @@ namespace ShooterTutorial.GameObjects
         {
             // draw the animation
             EnemyAnimation.Draw(spriteBatch, Movement.getRotation());
+        }
+
+        public void DealDamage(int damage)
+        {
+            Health -= damage;
+        }
+
+        class Phase1State : State
+        {
+            private Enemy _enemy;
+
+            public Phase1State(Enemy enemy)
+            {
+                _enemy = enemy;
+            }
+
+            public override void OnEnter()
+            {
+                _enemy.EnemyAnimation.Color = Color.Green;
+            }
+
+            public override void OnUpdate(GameTime gameTime)
+            {
+                if (_enemy.Health <= 50)
+                {
+                    _enemy._stateMachine.ChangeState(new Phase2State(_enemy));
+                }
+            }
+        }
+
+        class Phase2State : State
+        {
+            private Enemy _enemy;
+
+            public Phase2State(Enemy enemy)
+            {
+                _enemy = enemy;
+            }
+
+            public override void OnEnter()
+            {
+                _enemy.EnemyAnimation.Color = Color.Red;
+            }
+
+            public override void OnUpdate(GameTime gameTime)
+            {
+            }
+        }
+
+        class DeadState : State
+        {
+            private Enemy _enemy;
+
+            public DeadState(Enemy enemy)
+            {
+                _enemy = enemy;
+            }
+
+            public override void OnEnter()
+            {
+                _enemy._game.AddExplosion(_enemy.Position);
+                _enemy._Active = false;
+            }
         }
     }
 }

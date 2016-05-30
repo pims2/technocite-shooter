@@ -143,6 +143,7 @@
     <Compile Include="GameObjects\GravityBullet.cs" />
     <Compile Include="GameObjects\GravityMovement.cs" />
     <Compile Include="GameObjects\IMovement.cs" />
+    <Compile Include="GameObjects\State.cs" />
     <Compile Include="GameObjects\Laser.cs" />
     <Compile Include="GameObjects\ghaMovement.cs" />
     <Compile Include="GameObjects\LinearMovementRotation.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="GameObjects\Powerup.cs" />
     <Compile Include="GameObjects\SinusoidalMovement.cs" />
     <Compile Include="GameObjects\SinusShot.cs" />
+    <Compile Include="GameObjects\StateMachine.cs" />
     <Compile Include="GameObjects\TripleWeapon.cs" />
     <Compile Include="GameObjects\TripleWeaponRotateGHA.cs" />
     <Compile Include="GameObjects\VariableSpeedMovement.cs" />
