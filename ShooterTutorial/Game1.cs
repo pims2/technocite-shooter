@@ -263,7 +263,7 @@ namespace ShooterTutorial
 
             if (_currentKeyboardState.IsKeyDown(Keys.Space) || _currentGamePadState.Buttons.X == ButtonState.Pressed)
             {
-                _weapon.Fire(gameTime);
+                _weapon.Shoot();
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.NumPad1))

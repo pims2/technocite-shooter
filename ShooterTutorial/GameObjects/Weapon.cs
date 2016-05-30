@@ -50,7 +50,7 @@ namespace ShooterTutorial.GameObjects
                     break;
                 case State.Fire:
                     _previousLaserSpawnTime = gameTime.TotalGameTime;
-                    _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0f));
+                    Fire(gameTime);
                     _state = State.Wait;
 
                     break;
@@ -67,9 +67,14 @@ namespace ShooterTutorial.GameObjects
             }
         }
 
-        public virtual void Fire(GameTime gameTime)
+        public void Shoot()
         {
             _itMustFire = true;
+        }
+
+        protected virtual void Fire(GameTime gameTime)
+        {
+            _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0f));
         }
 
         public virtual Animation GetPowerupAnimation()
@@ -101,17 +106,9 @@ namespace ShooterTutorial.GameObjects
         {
         }
 
-        public override void Fire(GameTime gameTime)
+        protected override void Fire(GameTime gameTime)
         {
-            // govern the rate of fire for our lasers
-            if (gameTime.TotalGameTime - _previousLaserSpawnTime > _laserSpawnTime)
-            {
-                _previousLaserSpawnTime = gameTime.TotalGameTime;
-
-                // Add the laer to our list.
-                _game.AddLaser(WaveMovement.create(_player.Position, 0f, 10, 75));
-            }
-
+            _game.AddLaser(WaveMovement.create(_player.Position, 0f, 10, 75));
         }
     }
 
