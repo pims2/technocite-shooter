@@ -168,10 +168,7 @@ namespace ShooterTutorial.GameObjects
             public override void OnEnter()
             {
                 _enemy.EnemyAnimation.Color = Color.Red;
-            }
-
-            public override void OnUpdate(GameTime gameTime)
-            {
+                _enemy.Movement = SinusoidaleMovement.Create(_enemy.Position, 0, 180f, 10f);
             }
         }
 
