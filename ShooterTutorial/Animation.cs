@@ -30,8 +30,9 @@ namespace ShooterTutorial
         int currentFrame;
 
         // The color of the frame we will be displaying
-        Color color;
-
+        Color _color;
+        public Color Color { set { _color = value; } }
+        
         // The area of the image strip we want to display
         Rectangle sourceRect = new Rectangle();
 
@@ -55,7 +56,7 @@ namespace ShooterTutorial
 
         public void Initialize(Texture2D texture, Vector2 position, int frameWidth, int frameHeight, int frameCount, int frametime, Color color, float scale, bool looping)
         {
-            this.color = color;
+            this._color = color;
             this.FrameWidth = frameWidth;
             this.FrameHeight = frameHeight;
             this.frameCount = frameCount;
@@ -107,7 +108,7 @@ namespace ShooterTutorial
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Active)
-                spriteBatch.Draw(spriteStrip, destinationRect, sourceRect, color);
+                spriteBatch.Draw(spriteStrip, destinationRect, sourceRect, _color);
         }
 
         public void Draw(SpriteBatch spriteBatch, float rotate)

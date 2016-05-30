@@ -143,7 +143,7 @@ namespace ShooterTutorial
             Animation playerAnimation = new Animation();
             playerAnimation.Initialize(playerTexture, playerPosition, 115, 69, 8, 30, Color.White, 1, true);
             
-            _player.Initialize(playerAnimation, playerPosition);
+            _player.Initialize(this, playerAnimation, playerPosition);
 
             // Load the background.
             _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
@@ -466,14 +466,7 @@ namespace ShooterTutorial
                     // Show the explosion where the enemy was...
                     AddExplosion(enemies[i].Position);
 
-                    // deal damge to the player
-                    _player.Health -= enemies[i].Damage;
-
-                    // if the player has no health destroy it.
-                    if (_player.Health <= 0)
-                    {
-                        _player.Active = false;
-                    }
+                    _player.Damage(enemies[i].Damage);
                 }
 
                 for (var l = 0; l < laserBeams.Count; l++)
@@ -535,7 +528,7 @@ namespace ShooterTutorial
             }
         }
 
-        protected void AddExplosion(Vector2 enemyPosition)
+        public void AddExplosion(Vector2 enemyPosition)
         {
             Animation explosionAnimation = new Animation();
 
