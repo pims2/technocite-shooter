@@ -15,7 +15,7 @@ namespace ShooterTutorial.GameObjects
         private float Offset;
         private double Time;
 
-        private float Speed = 5f;
+        private float Speed = 3f;
         private float OffsetSize = 200f;
 
         public VariableSpeedMovement(Vector2 position, Vector2 direction)

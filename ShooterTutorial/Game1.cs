@@ -184,7 +184,7 @@ namespace ShooterTutorial
             _prevMouseState = _currentMouseState;
             // Read the current state of the keyboard and gamepad and store it.
             _currentKeyboardState = Keyboard.GetState();
-            _currentGamePadState = GamePad.GetState(PlayerIndex.One);
+             _currentGamePadState = GamePad.GetState(PlayerIndex.One);
             _currentMouseState = Mouse.GetState();
             
             UpdatePlayer(gameTime);
