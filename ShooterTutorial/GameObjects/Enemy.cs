@@ -59,7 +59,7 @@ namespace ShooterTutorial.GameObjects
 
         private Game1 _game;
 
-        private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create<int>( "enemy.Health", 3.0, "Enemy health at init" );
+        private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create( "enemy.Health", 3, "Enemy health at init" );
 
         public void Initialize(
             Game1 game,

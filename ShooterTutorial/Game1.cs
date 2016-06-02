@@ -8,7 +8,10 @@ using ShooterTutorial.GameObjects;
 using ShooterTutorial.Utilities;
 using ShooterTutorial.Configuration;
 using ShooterTutorial.ShooterContentTypes;
-
+using Windows.Data.Json;
+using System.IO;
+using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace ShooterTutorial
 {
@@ -129,12 +132,28 @@ namespace ShooterTutorial
             ConfigurationManager.logConfiguration();
         }
 
+        private async Task<string> readConfig()
+        {
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            var file = await folder.GetFileAsync("Content\\Config\\global.json");
+            var contents = await Windows.Storage.FileIO.ReadTextAsync(file);
+
+            return contents;
+        }
+
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
         {
+            var task = readConfig();
+            task.Wait();
+            var content = task.Result;
+
+            JsonObject config = (JsonObject)JsonObject.Parse(content); 
+            ConfigurationManager.LoadConfiguration(config);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 

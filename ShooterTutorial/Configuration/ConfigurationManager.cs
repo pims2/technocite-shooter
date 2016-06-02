@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Windows.Data.Json;
 
 namespace ShooterTutorial.Configuration
 {
@@ -18,6 +19,11 @@ namespace ShooterTutorial.Configuration
             ConfigurationTable.Add(configuration_value);
 
             return configuration_value;
+        }
+
+        public static void LoadConfiguration( JsonObject content )
+        {
+            
         }
 
         public static void logConfiguration()
