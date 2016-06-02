@@ -19,7 +19,7 @@ namespace ShooterTutorial.GameObjects
         {
             for (var i = 0; i < nbBullets; i++)
             {
-                _game.AddLaser(LinearMovement.create(_player.Position, -10f, 360.0f / nbBullets * i));
+                _game.AddLaser(LinearMovement.create(_entity.Position, -10f, 360.0f / nbBullets * i));
             }
         }
     }

@@ -20,10 +20,10 @@ namespace ShooterTutorial.GameObjects
         protected override void Fire(GameTime gameTime)
         {
             Vector2 gravity = new Vector2(-5, 1);
-            _game.AddLaser(GravityMovement.Create(_player.Position, -10f, 0, gravity, 20));
+            _game.AddLaser(GravityMovement.Create(_entity.Position, -10f, 0, gravity, 20));
             gravity = new Vector2(-5, -1);
-            _game.AddLaser(GravityMovement.Create(_player.Position, -10f, 0, gravity, 20));
-            _game.AddLaser(LinearMovement.create(_player.Position, -10f, 0));
+            _game.AddLaser(GravityMovement.Create(_entity.Position, -10f, 0, gravity, 20));
+            _game.AddLaser(LinearMovement.create(_entity.Position, -10f, 0));
         }
     }
 }

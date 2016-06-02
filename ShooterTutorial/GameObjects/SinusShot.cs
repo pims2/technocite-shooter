@@ -19,8 +19,8 @@ namespace ShooterTutorial.GameObjects
 
         protected override void Fire(GameTime gameTime)
         {
-            _game.AddLaser(SinusoidaleMovement.Create(_player.Position, -10f, -10, 20));
-            _game.AddLaser(SinusoidaleMovement.Create(_player.Position, -10f, 10, 20));
+            _game.AddLaser(SinusoidaleMovement.Create(_entity.Position, -10f, -10, 20));
+            _game.AddLaser(SinusoidaleMovement.Create(_entity.Position, -10f, 10, 20));
         }
     }
 }

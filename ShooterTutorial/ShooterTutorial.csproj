@@ -175,6 +175,7 @@
     <Compile Include="Utilities\EntityPool.cs" />
     <Compile Include="Utilities\GraphicScene.cs" />
     <Compile Include="Utilities\IDrawable2.cs" />
+    <Compile Include="Utilities\IPositionable.cs" />
     <Compile Include="Utilities\IUpdateable2.cs" />
   </ItemGroup>
   <ItemGroup>

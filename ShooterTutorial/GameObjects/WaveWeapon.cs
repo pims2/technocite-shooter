@@ -17,7 +17,7 @@ namespace ShooterTutorial.GameObjects
 
         protected override void Fire(GameTime gameTime)
         {
-            _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0.0f));
+            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, 0.0f));
         }
 
     }

@@ -8,7 +8,7 @@ using ShooterTutorial;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Enemy : IUpdateable2, IDrawable2
+    public class Enemy : IUpdateable2, IDrawable2, IPositionable
     {
         private StateMachine _stateMachine;
 
@@ -17,7 +17,11 @@ namespace ShooterTutorial.GameObjects
 
         // The postion of the enemy ship relative to the 
         // top of left corner of the screen
-        public Vector2 Position;
+        public Vector2 Position {
+            get { return _position; }
+            set { _position = value; }
+        }
+        private Vector2 _position;
 
         public IMovement Movement;
 
@@ -74,7 +78,7 @@ namespace ShooterTutorial.GameObjects
             Movement = movement;
 
             // set the postion of th enemy ship
-            Position = movement.getPosition();
+            _position = movement.getPosition();
 
             // set the enemy to be active
             _Active = true;
@@ -107,17 +111,17 @@ namespace ShooterTutorial.GameObjects
 
             Movement.update(gameTime);
 
-            Position = Movement.getPosition();
+            _position = Movement.getPosition();
 
             // Update the postion of the anaimation
-            EnemyAnimation.Position = Position;
+            EnemyAnimation.Position = _position;
 
             // Update the animation;
             EnemyAnimation.Update(gameTime);
 
             /* If the enenmy is past the screen or its
              * health reaches 0 then deactivate it. */
-            if (Position.X < -Width)
+            if (_position.X < -Width)
             {
                 //deactivate the enemy
                 _Active = false;
