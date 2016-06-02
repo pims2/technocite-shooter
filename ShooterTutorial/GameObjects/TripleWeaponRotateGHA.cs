@@ -15,9 +15,9 @@ namespace ShooterTutorial.GameObjects
 
         protected override void Fire(GameTime gameTime)
         {
-            _game.AddLaser(ghaMovement.create(_player.Position, -10f, -30.0f * (float)Math.PI / 180.0f, 0));
-            _game.AddLaser(ghaMovement.create(_player.Position, 0f, 0f, 0));
-            _game.AddLaser(ghaMovement.create(_player.Position, 10f, 30.0f * (float)Math.PI / 180.0f, 0));
+            _game.AddLaser(ghaMovement.create(_entity.Position, -10f, -30.0f * (float)Math.PI / 180.0f, 0));
+            _game.AddLaser(ghaMovement.create(_entity.Position, 0f, 0f, 0));
+            _game.AddLaser(ghaMovement.create(_entity.Position, 10f, 30.0f * (float)Math.PI / 180.0f, 0));
         }
     }
 }

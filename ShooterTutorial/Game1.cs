@@ -270,26 +270,27 @@ namespace ShooterTutorial
 
 
             // Thumbstick controls
-            _player.Position.X += _currentGamePadState.ThumbSticks.Left.X * PlayerMoveSpeed;
-            _player.Position.Y += _currentGamePadState.ThumbSticks.Left.Y * PlayerMoveSpeed;
+            _player.Position += _currentGamePadState.ThumbSticks.Left * PlayerMoveSpeed;
+
+            Vector2 movement = new Vector2();
 
             // Keyboard/DPad
             if (_currentKeyboardState.IsKeyDown(Keys.Left) || _currentGamePadState.DPad.Left == ButtonState.Pressed)
             {
-                _player.Position.X -= +PlayerMoveSpeed;
+                movement.X -= +PlayerMoveSpeed;
             }
             if (_currentKeyboardState.IsKeyDown(Keys.Right) || _currentGamePadState.DPad.Right == ButtonState.Pressed)
             {
-                _player.Position.X += PlayerMoveSpeed;
+                movement.X += PlayerMoveSpeed;
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.Up) || _currentGamePadState.DPad.Up == ButtonState.Pressed)
             {
-                _player.Position.Y -= PlayerMoveSpeed;
+                movement.Y -= PlayerMoveSpeed;
             }
             if (_currentKeyboardState.IsKeyDown(Keys.Down) || _currentGamePadState.DPad.Down == ButtonState.Pressed)
             {
-                _player.Position.Y += PlayerMoveSpeed;
+                movement.Y += PlayerMoveSpeed;
             }
 
             if (_currentKeyboardState.IsKeyDown(Keys.Space) || _currentGamePadState.Buttons.X == ButtonState.Pressed)
@@ -317,9 +318,14 @@ namespace ShooterTutorial
                 _weapon = new WaveWeapon(this, _player);
             }
 
+            Vector2 final_player_position = new Vector2();
+            final_player_position = _player.Position + movement;
+
             // Make sure that the player does not go out of bounds
-            _player.Position.X = MathHelper.Clamp(_player.Position.X, 0, GraphicsDevice.Viewport.Width - _player.Width);
-            _player.Position.Y = MathHelper.Clamp(_player.Position.Y, 0, GraphicsDevice.Viewport.Height - _player.Height);
+            final_player_position.X = MathHelper.Clamp(final_player_position.X, 0, GraphicsDevice.Viewport.Width - _player.Width);
+            final_player_position.Y = MathHelper.Clamp(final_player_position.Y, 0, GraphicsDevice.Viewport.Height - _player.Height);
+
+            _player.Position = final_player_position;
         }
 
         /// <summary>

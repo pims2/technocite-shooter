@@ -9,7 +9,7 @@ using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Player :IDrawable2
+    public class Player :IDrawable2, IPositionable
     {
         enum State
         {
@@ -20,7 +20,11 @@ namespace ShooterTutorial.GameObjects
 
         public Animation PlayerAnimation;
 
-        public Vector2 Position;
+        public Vector2 Position {
+            get { return _position; }
+            set { _position = value; }
+        }
+        private Vector2 _position;
 
         // Amount of hit points the player has
         public int Health;
@@ -46,7 +50,7 @@ namespace ShooterTutorial.GameObjects
             PlayerAnimation = animation;
 
 
-            Position = position;
+            _position = position;
             Health = 100;
             _state = State.Alive;
             _game = game;
@@ -60,11 +64,11 @@ namespace ShooterTutorial.GameObjects
                     if (Health <= 0)
                     {
                         _timer = gameTime.TotalGameTime;
-                        _game.AddExplosion(Position);
+                        _game.AddExplosion(_position);
                         PlayerAnimation.Active = false;
                         _state = State.Dead;
                     }
-                    PlayerAnimation.Position = Position;
+                    PlayerAnimation.Position = _position;
                     break;
                 case State.Dead:
                     if (gameTime.TotalGameTime.Seconds - _timer.Seconds >= 3 )
@@ -83,7 +87,7 @@ namespace ShooterTutorial.GameObjects
                         _state = State.Alive;
                     }
 
-                    PlayerAnimation.Position = Position;
+                    PlayerAnimation.Position = _position;
                     break;
                 default:
                     break;

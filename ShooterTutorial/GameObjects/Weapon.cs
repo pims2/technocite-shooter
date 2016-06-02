@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ShooterTutorial.ShooterContentTypes;
+using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
@@ -22,18 +23,18 @@ namespace ShooterTutorial.GameObjects
         protected TimeSpan _laserSpawnTime;
         protected TimeSpan _previousLaserSpawnTime;
         protected Game1 _game;
-        protected Player _player;
+        protected IPositionable _entity;
         protected State _state;
         protected Boolean _itMustFire;
 
-        public Weapon(Game1 game, Player player)
+        public Weapon(Game1 game, IPositionable entity)
         {
             const float SECONDS_IN_MINUTE = 60f;
             const float RATE_OF_FIRE = 200f;
             _laserSpawnTime = TimeSpan.FromSeconds(SECONDS_IN_MINUTE / RATE_OF_FIRE);
             _previousLaserSpawnTime = TimeSpan.Zero;
             _game = game;
-            _player = player;
+            _entity = entity;
             _state = State.Ready;
             _itMustFire = false;
         }
@@ -74,7 +75,7 @@ namespace ShooterTutorial.GameObjects
 
         protected virtual void Fire(GameTime gameTime)
         {
-            _game.AddLaser(LinearMovement.create(_player.Position, 0f, 0f));
+            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, 0f));
         }
 
         public virtual Animation GetPowerupAnimation()
@@ -102,13 +103,13 @@ namespace ShooterTutorial.GameObjects
     class AdnWeapon : Weapon
     {
 
-        public AdnWeapon(Game1 game, Player player) : base(game, player)
+        public AdnWeapon(Game1 game, IPositionable entity) : base(game, entity)
         {
         }
 
         protected override void Fire(GameTime gameTime)
         {
-            _game.AddLaser(WaveMovement.create(_player.Position, 0f, 10, 75));
+            _game.AddLaser(WaveMovement.create(_entity.Position, 0f, 10, 75));
         }
     }
 
