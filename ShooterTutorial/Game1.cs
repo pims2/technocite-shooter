@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using ShooterTutorial.GameObjects;
 using ShooterTutorial.Utilities;
+using ShooterTutorial.Configuration;
 using ShooterTutorial.ShooterContentTypes;
 
 
@@ -124,6 +125,8 @@ namespace ShooterTutorial
             explosions = new EntityList<Explosion>(_scene);
             
             base.Initialize();
+
+            ConfigurationManager.logConfiguration();
         }
 
         /// <summary>

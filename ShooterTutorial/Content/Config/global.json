@@ -1,0 +1,7 @@
+﻿{
+    "enemy": {
+        "Health": 3,
+        "Damage": 10,
+        "Value": 100
+    }
+}

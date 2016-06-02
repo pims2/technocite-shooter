@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ShooterTutorial.Utilities;
+using ShooterTutorial.Configuration;
 using ShooterTutorial;
 
 
@@ -58,6 +59,8 @@ namespace ShooterTutorial.GameObjects
 
         private Game1 _game;
 
+        private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create<int>( "enemy.Health", 3.0, "Enemy health at init" );
+
         public void Initialize(
             Game1 game,
             Animation animation,
@@ -77,7 +80,7 @@ namespace ShooterTutorial.GameObjects
             _Active = true;
 
             // set the health of the enemy
-            Health = 3;
+            Health = InitialHealth;
 
             // Set the amount of damage the enemy does
             Damage = 10;
