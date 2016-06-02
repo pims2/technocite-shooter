@@ -2,7 +2,9 @@
     "enemy": {
         "Health": 8,
         "Damage": 10,
-        "Value": 100
+        "Value": 100,
+        "Name" :  "Enemy"
     },
-    "online": true
+    "online": true,
+    "test": [1,2,3]
 }

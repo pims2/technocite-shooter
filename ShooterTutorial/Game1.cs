@@ -80,6 +80,8 @@ namespace ShooterTutorial
         //Texture to hold explosion animation.
         Texture2D explosionTexture;
 
+        ConfigurationTable<int> test = ConfigurationManager.createTable<int>( "test", "table test" );
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);

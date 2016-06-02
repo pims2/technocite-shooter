@@ -135,6 +135,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\ConfigurationTable.cs" />
     <Compile Include="Configuration\ConfigurationValue.cs" />
     <Compile Include="Configuration\ConfigurationValueBase.cs" />
     <Compile Include="GameObjects\BackAndFront.cs" />
