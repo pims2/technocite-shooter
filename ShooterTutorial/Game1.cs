@@ -151,8 +151,15 @@ namespace ShooterTutorial
             task.Wait();
             var content = task.Result;
 
-            JsonObject config = (JsonObject)JsonObject.Parse(content); 
-            ConfigurationManager.LoadConfiguration(config);
+            try
+            {
+                JsonObject config = (JsonObject)JsonObject.Parse(content);
+                ConfigurationManager.LoadConfiguration(config);
+            }
+            catch(Exception e)
+            {
+                
+            }
 
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace ShooterTutorial.Configuration
 {
@@ -13,18 +14,13 @@ namespace ShooterTutorial.Configuration
             get { return _Name; }
         }
 
-        public string Description
-        {
-            get { return _Description; }
-        }
-
         string _Name;
-        string _Description;
+        public string Description;
 
         public ConfigurationValueBase(string name, string description)
         {
             _Name = name;
-            _Description = description;
+            Description = description;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿{
     "enemy": {
-        "Health": 3,
+        "Health": 8,
         "Damage": 10,
         "Value": 100
-    }
+    },
+    "online": true
 }
