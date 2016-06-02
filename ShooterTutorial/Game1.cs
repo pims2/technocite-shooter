@@ -6,8 +6,12 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using ShooterTutorial.GameObjects;
 using ShooterTutorial.Utilities;
+using ShooterTutorial.Configuration;
 using ShooterTutorial.ShooterContentTypes;
-
+using Windows.Data.Json;
+using System.IO;
+using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace ShooterTutorial
 {
@@ -124,6 +128,17 @@ namespace ShooterTutorial
             explosions = new EntityList<Explosion>(_scene);
             
             base.Initialize();
+
+            ConfigurationManager.logConfiguration();
+        }
+
+        private async Task<string> readConfig()
+        {
+            var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            var file = await folder.GetFileAsync("Content\\Config\\global.json");
+            var contents = await Windows.Storage.FileIO.ReadTextAsync(file);
+
+            return contents;
         }
 
         /// <summary>
@@ -132,6 +147,20 @@ namespace ShooterTutorial
         /// </summary>
         protected override void LoadContent()
         {
+            var task = readConfig();
+            task.Wait();
+            var content = task.Result;
+
+            try
+            {
+                JsonObject config = (JsonObject)JsonObject.Parse(content);
+                ConfigurationManager.LoadConfiguration(config);
+            }
+            catch(Exception e)
+            {
+                
+            }
+
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -461,7 +490,7 @@ namespace ShooterTutorial
                 if (playerRectangle.Intersects(enemyRectangle))
                 {
                     // kill off the enemy
-                    enemies[i].DealDamage(100);
+                    enemies[i].DealDamage(10);
                     _player.Damage(enemies[i].Damage);
                 }
 
@@ -477,7 +506,7 @@ namespace ShooterTutorial
                     // test the bounds of the laser and enemy
                     if (laserRectangle.Intersects(enemyRectangle))
                     {
-                        enemies[i].DealDamage(50);
+                        enemies[i].DealDamage(1);
                         laserBeams[l].Active = false;
                     }
                 }

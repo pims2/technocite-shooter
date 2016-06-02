@@ -134,6 +134,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\ConfigurationValue.cs" />
+    <Compile Include="Configuration\ConfigurationValueBase.cs" />
     <Compile Include="GameObjects\BackAndFront.cs" />
     <Compile Include="GameObjects\Bazooka.cs" />
     <Compile Include="GameObjects\CircularShoot.cs" />
@@ -212,6 +215,9 @@
     </Content>
     <Content Include="Content\Graphics\shipAnimation.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Config\global.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Content\Models\engine_diff_tex_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

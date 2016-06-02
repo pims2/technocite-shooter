@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ShooterTutorial.Utilities;
+using ShooterTutorial.Configuration;
 using ShooterTutorial;
 
 
@@ -58,6 +59,8 @@ namespace ShooterTutorial.GameObjects
 
         private Game1 _game;
 
+        private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create( "enemy.Health", 3, "Enemy health at init" );
+
         public void Initialize(
             Game1 game,
             Animation animation,
@@ -77,7 +80,7 @@ namespace ShooterTutorial.GameObjects
             _Active = true;
 
             // set the health of the enemy
-            Health = 100;
+            Health = InitialHealth;
 
             // Set the amount of damage the enemy does
             Damage = 10;
@@ -149,7 +152,7 @@ namespace ShooterTutorial.GameObjects
 
             public override void OnUpdate(GameTime gameTime)
             {
-                if (_enemy.Health <= 50)
+                if (_enemy.Health <= 2)
                 {
                     _enemy._stateMachine.ChangeState(new Phase2State(_enemy));
                 }
@@ -168,10 +171,31 @@ namespace ShooterTutorial.GameObjects
             public override void OnEnter()
             {
                 _enemy.EnemyAnimation.Color = Color.Red;
+                _enemy.Movement = SinusoidaleMovement.Create(_enemy.Position, 0, 180f, 10f);
             }
 
             public override void OnUpdate(GameTime gameTime)
             {
+                if (_enemy.Health <= 1)
+                {
+                    _enemy._stateMachine.ChangeState(new Phase3State(_enemy));
+                }
+            }
+        }
+
+        class Phase3State : State
+        {
+            private Enemy _enemy;
+
+            public Phase3State(Enemy enemy)
+            {
+                _enemy = enemy;
+            }
+
+            public override void OnEnter()
+            {
+                _enemy.EnemyAnimation.Color = Color.White;
+                _enemy.Movement = LinearMovement.create(_enemy.Position, 0, 0, 5f);
             }
         }
 
