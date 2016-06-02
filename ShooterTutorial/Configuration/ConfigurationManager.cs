@@ -32,9 +32,38 @@ namespace ShooterTutorial.Configuration
             return configuration_value;
         }
 
+        public static ConfigurationTable<T> createTable<T>(string name, string description)
+        {
+            ConfigurationTable<T> configuration_value;
+
+            configuration_value = getTable<T>(name);
+
+            if (configuration_value == null)
+            {
+                configuration_value = new ConfigurationTable<T>(name, description);
+
+                ConfigurationTable.Add(configuration_value);
+            }
+            else
+            {
+                configuration_value.Description = description;
+            }
+
+            return configuration_value;
+        }
+
         public static ConfigurationValue<T> create<T>(string name)
         {
             ConfigurationValue<T> configuration_value = new ConfigurationValue<T>(name);
+
+            ConfigurationTable.Add(configuration_value);
+
+            return configuration_value;
+        }
+
+        public static ConfigurationTable<T> createTable<T>(string name)
+        {
+            ConfigurationTable<T> configuration_value = new ConfigurationTable<T>(name, "");
 
             ConfigurationTable.Add(configuration_value);
 
@@ -51,6 +80,18 @@ namespace ShooterTutorial.Configuration
             }
 
             return (ConfigurationValue < T >)result;
+        }
+
+        public static ConfigurationTable<T> getTable<T>(string name)
+        {
+            var result = ConfigurationTable.Find(value => value.Name == name);
+
+            if (result == null)
+            {
+                result = createTable<T>(name);
+            }
+
+            return (ConfigurationTable<T>)result;
         }
 
         public static void LoadConfiguration( JsonObject content )
@@ -82,6 +123,19 @@ namespace ShooterTutorial.Configuration
                     case JsonValueType.Object:
                         {
                             LoadConfigurationPrefixed(value.Value.GetObject(), prefix + value.Key + '.');
+                        }
+                        break;
+
+                    case JsonValueType.Array:
+                        {
+                            ConfigurationTable<int> configuration_table = getTable<int>(prefix + value.Key);
+
+                            configuration_table.Clear();
+
+                            foreach (var item in value.Value.GetArray())
+                            {
+                                configuration_table.Add((int)item.GetNumber());
+                            }
                         }
                         break;
 
