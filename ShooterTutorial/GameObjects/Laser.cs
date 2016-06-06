@@ -8,7 +8,7 @@ using ShooterTutorial;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Laser : IUpdateable2, IDrawable2
+    public class Laser : IUpdateable2, IDrawable2, ICollidable
     {
 
         // animation the represents the laser animation.
@@ -36,6 +36,7 @@ namespace ShooterTutorial.GameObjects
         }
 
         private bool _Active;
+        private Game1 _game;
 
         // Range of the laser.
         int Range;
@@ -53,16 +54,47 @@ namespace ShooterTutorial.GameObjects
 
         }
 
-        public void Initialize(Animation animation, IMovement movement)
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.Laser;
+            }
+        }
+
+        CollisionLayer _collisionLayers;
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                return _collisionLayers;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
+        }
+
+        public void Initialize(Game1 game, Animation animation, IMovement movement, CollisionLayer collision_layers)
         {
             LaserAnimation = animation;
             Movement = movement;
             Position = movement.getPosition();
-
+            _game = game;
+            _collisionLayers = collision_layers;
             Active = true;
         }
 
-        public void Update(Game game, GameTime gameTime)
+        public void Update( Game game, GameTime gameTime)
         {
             Movement.update(gameTime);
 
@@ -71,12 +103,22 @@ namespace ShooterTutorial.GameObjects
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
 
-            _Active = _Active && Position.X < game.GraphicsDevice.Viewport.Width;
+            _Active = _Active && Position.X >= 0 && Position.X < game.GraphicsDevice.Viewport.Width;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             LaserAnimation.Draw(spriteBatch, Movement.getRotation());
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if (other.CollisionGroup == CollisionLayer.PowerUp)
+            {
+                _game._weapon = ((Powerup)other).Weapon;
+            }
+
+            Active = false;
         }
     }
 }

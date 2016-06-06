@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShooterTutorial.Utilities
 {
-    interface IPositionable
+    public interface IPositionable
     {
         Vector2 Position { get; set; }
     }

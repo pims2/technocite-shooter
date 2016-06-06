@@ -8,7 +8,7 @@ using ShooterTutorial;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Enemy : IUpdateable2, IDrawable2, IPositionable
+    public class Enemy : IUpdateable2, IDrawable2, IPositionable, ICollidable
     {
         private StateMachine _stateMachine;
 
@@ -63,9 +63,40 @@ namespace ShooterTutorial.GameObjects
             get { return EnemyAnimation.FrameHeight; }
         }
 
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.Enemy;
+            }
+        }
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                return CollisionLayer.Laser | CollisionLayer.Player;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
+        }
+
         private Game1 _game;
 
-        private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create( "enemy.Health", 3, "Enemy health at init" );
+        //private static ConfigurationValue<int> InitialHealth = ConfigurationManager.create( "enemy.Health", 3, "Enemy health at init" );
+
+        [Configuration.Configuration("enemy.Health", Description = "Enemy health at init")]
+        private static int InitialHealth = 3;
 
         public void Initialize(
             Game1 game,
@@ -82,6 +113,7 @@ namespace ShooterTutorial.GameObjects
             // set the postion of th enemy ship
             _position = movement.getPosition();
             _weapon = new Weapon(game, this, (float)Math.PI);
+            _weapon.CollisionLayers = CollisionLayer.Player | CollisionLayer.Laser;
 
             // set the enemy to be active
             _Active = true;
@@ -144,6 +176,21 @@ namespace ShooterTutorial.GameObjects
         public void DealDamage(int damage)
         {
             Health -= damage;
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if (other.CollisionGroup == CollisionLayer.Laser)
+            {
+                if ((other.CollisionLayers & CollisionLayer.Enemy) != 0)
+                {
+                    DealDamage(1);
+                }
+            }
+            else if (other.CollisionGroup == CollisionLayer.Player)
+            {
+                DealDamage(10);
+            }
         }
 
         class Phase1State : State

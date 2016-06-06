@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Windows.Data.Json;
+using System.Reflection;
 
 namespace ShooterTutorial.Configuration
 {
     class ConfigurationManager
     {
         private static List<ConfigurationValueBase> ConfigurationTable = new List<ConfigurationValueBase>();
+        private static bool ItIsInitialized = false;
 
-        public static ConfigurationValue<T> create<T>( string name, T value, string description )
+        public static ConfigurationValue<T> create<T>( string name, string description )
         {
             ConfigurationValue<T> configuration_value;
 
@@ -20,7 +22,7 @@ namespace ShooterTutorial.Configuration
 
             if (configuration_value == null)
             {
-                configuration_value = new ConfigurationValue<T>(name, value, description);
+                configuration_value = new ConfigurationValue<T>(name, description);
 
                 ConfigurationTable.Add(configuration_value);
             }
@@ -96,6 +98,12 @@ namespace ShooterTutorial.Configuration
 
         public static void LoadConfiguration( JsonObject content )
         {
+            if( !ItIsInitialized )
+            {
+                ItIsInitialized = true;
+                Initialize();
+            }
+
             LoadConfigurationPrefixed(content, "");
         }
 
@@ -150,6 +158,42 @@ namespace ShooterTutorial.Configuration
             foreach( var value in ConfigurationTable )
             {
                 Debug.WriteLine(value.Name + " : " + value.Description);
+            }
+        }
+
+        private static void Initialize()
+        {
+            Assembly assembly = typeof(ConfigurationManager).GetTypeInfo().Assembly;
+
+            foreach( TypeInfo type in assembly.DefinedTypes )
+            {
+                foreach( var field in type.DeclaredFields)
+                {
+                    if( field.IsStatic )
+                    {
+                        var attribute = field.GetCustomAttribute<Configuration>();
+
+                        if (attribute != null)
+                        {
+                            switch (field.FieldType.Name)
+                            {
+                                case "Int32":
+                                    {
+                                        ConfigurationValue<int> value = create<int>(attribute.Name, attribute.Description);
+
+                                        value.Set( (int)field.GetValue(null) );
+
+                                        value.AddField(field);
+                                    }
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                            
+                        }
+                    }
+                }
             }
         }
     }
