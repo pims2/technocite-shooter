@@ -21,9 +21,9 @@ namespace ShooterTutorial.GameObjects
         {
             Random rnd = new Random();
             // Add the laser to our list.
-            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, 0f, 0.0f));
-            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, (float)rnd.Next(-180, 0), rnd.Next(0, 40) * (float)Math.PI / 180.0f));
-            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, (float)rnd.Next(0, 180), rnd.Next(0, 40) * (float)Math.PI / 180.0f));
+            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, 0f, 0.0f), _collisionLayers);
+            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, (float)rnd.Next(-180, 0), rnd.Next(0, 40) * (float)Math.PI / 180.0f), _collisionLayers);
+            _game.AddLaser(LoadingShurikenMovement.create(_entity.Position, (float)rnd.Next(0, 180), rnd.Next(0, 40) * (float)Math.PI / 180.0f), _collisionLayers);
         }
 
         public override Animation GetPowerupAnimation()

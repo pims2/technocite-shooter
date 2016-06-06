@@ -52,9 +52,7 @@ namespace ShooterTutorial.GameObjects
         {
             get
             {
-                // :TODO: collision with enemy lasers
-
-                return CollisionLayer.Enemy | CollisionLayer.PowerUp;
+                return CollisionLayer.Enemy | CollisionLayer.PowerUp | CollisionLayer.Laser;
             }
         }
 
@@ -144,6 +142,10 @@ namespace ShooterTutorial.GameObjects
             else if (other.CollisionGroup == CollisionLayer.PowerUp)
             {
                 _game._weapon = ((Powerup)other).Weapon;
+            }
+            else if (other.CollisionGroup == CollisionLayer.Laser)
+            {
+                Damage(10);
             }
         }
     }

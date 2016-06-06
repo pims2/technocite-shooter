@@ -363,7 +363,7 @@ namespace ShooterTutorial
             laserBeams.Update(this, gameTime);
         }
 
-        public void AddLaser(IMovement movement)
+        public void AddLaser(IMovement movement, CollisionLayer collision_layers)
         {
             Animation laserAnimation = new Animation();
 
@@ -378,7 +378,7 @@ namespace ShooterTutorial
                 1f,
                 true);
          
-            laserBeams.Add().Initialize(this, laserAnimation, movement);
+            laserBeams.Add().Initialize(this, laserAnimation, movement, collision_layers);
             
             /* todo: add code to create a laser. */
             //laserSoundInstance.Play();

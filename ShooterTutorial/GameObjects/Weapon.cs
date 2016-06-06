@@ -27,7 +27,10 @@ namespace ShooterTutorial.GameObjects
         protected State _state;
         protected Boolean _itMustFire;
         protected float _weaponAngle;
+        protected CollisionLayer _collisionLayers;
 
+        public CollisionLayer CollisionLayers { set { _collisionLayers = value; } }
+  
         public Weapon(Game1 game, IPositionable entity, float angle = 0.0f)
         {
             const float SECONDS_IN_MINUTE = 60f;
@@ -39,6 +42,7 @@ namespace ShooterTutorial.GameObjects
             _state = State.Ready;
             _itMustFire = false;
             _weaponAngle = angle;
+            _collisionLayers = CollisionLayer.PowerUp | CollisionLayer.Enemy | CollisionLayer.Laser;
         }
 
         public virtual void Update(GameTime gameTime)
@@ -77,7 +81,7 @@ namespace ShooterTutorial.GameObjects
 
         protected virtual void Fire(GameTime gameTime)
         {
-            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, _weaponAngle));
+            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, _weaponAngle), _collisionLayers);
         }
 
         public virtual Animation GetPowerupAnimation()
@@ -111,7 +115,7 @@ namespace ShooterTutorial.GameObjects
 
         protected override void Fire(GameTime gameTime)
         {
-            _game.AddLaser(WaveMovement.create(_entity.Position, 0f, 10, 75));
+            _game.AddLaser(WaveMovement.create(_entity.Position, 0f, 10, 75), _collisionLayers);
         }
     }
 

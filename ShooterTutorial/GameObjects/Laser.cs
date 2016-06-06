@@ -62,11 +62,13 @@ namespace ShooterTutorial.GameObjects
             }
         }
 
+        CollisionLayer _collisionLayers;
+
         public CollisionLayer CollisionLayers
         {
             get
             {
-                return CollisionLayer.Enemy | CollisionLayer.PowerUp;
+                return _collisionLayers;
             }
         }
 
@@ -82,16 +84,17 @@ namespace ShooterTutorial.GameObjects
             }
         }
 
-        public void Initialize(Game1 game, Animation animation, IMovement movement)
+        public void Initialize(Game1 game, Animation animation, IMovement movement, CollisionLayer collision_layers)
         {
             LaserAnimation = animation;
             Movement = movement;
             Position = movement.getPosition();
             _game = game;
+            _collisionLayers = collision_layers;
             Active = true;
         }
 
-        public void Update(Game game, GameTime gameTime)
+        public void Update( Game game, GameTime gameTime)
         {
             Movement.update(gameTime);
 
@@ -100,7 +103,7 @@ namespace ShooterTutorial.GameObjects
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
 
-            _Active = _Active && Position.X < game.GraphicsDevice.Viewport.Width;
+            _Active = _Active && Position.X < _game.GraphicsDevice.Viewport.Width;
         }
 
         public void Draw(SpriteBatch spriteBatch)

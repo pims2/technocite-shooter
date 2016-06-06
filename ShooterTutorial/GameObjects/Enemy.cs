@@ -110,6 +110,7 @@ namespace ShooterTutorial.GameObjects
             // set the postion of th enemy ship
             _position = movement.getPosition();
             _weapon = new Weapon(game, this, (float)Math.PI);
+            _weapon.CollisionLayers = CollisionLayer.Player | CollisionLayer.Laser;
 
             // set the enemy to be active
             _Active = true;
