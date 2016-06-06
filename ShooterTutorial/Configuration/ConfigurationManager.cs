@@ -187,6 +187,36 @@ namespace ShooterTutorial.Configuration
                                     }
                                     break;
 
+                                case "Single":
+                                    {
+                                        ConfigurationValue<float> value = create<float>(attribute.Name, attribute.Description);
+
+                                        value.Set((float)field.GetValue(null));
+
+                                        value.AddField(field);
+                                    }
+                                    break;
+
+                                case "String":
+                                    {
+                                        ConfigurationValue<string> value = create<string>(attribute.Name, attribute.Description);
+
+                                        value.Set((string)field.GetValue(null));
+
+                                        value.AddField(field);
+                                    }
+                                    break;
+
+                                case "Boolean":
+                                    {
+                                        ConfigurationValue<bool> value = create<bool>(attribute.Name, attribute.Description);
+
+                                        value.Set((bool)field.GetValue(null));
+
+                                        value.AddField(field);
+                                    }
+                                    break;
+
                                 default:
                                     break;
                             }
