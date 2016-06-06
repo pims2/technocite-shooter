@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ShooterTutorial.Utilities;
 using ShooterTutorial.Configuration;
 using ShooterTutorial;
-
+using System.Collections.Generic;
 
 namespace ShooterTutorial.GameObjects
 {
@@ -97,6 +97,12 @@ namespace ShooterTutorial.GameObjects
 
         [Configuration.Configuration("enemy.Health", Description = "Enemy health at init")]
         private static int InitialHealth = 3;
+
+        [Configuration.Configuration("enemy.Health2", Description = "Enemy health at init")]
+        private static List<int> InitialHealth2;
+
+        [Configuration.Configuration("enemy.HealthName", Description = "Enemy health at init")]
+        private static List<string> InitialHealthList;
 
         public void Initialize(
             Game1 game,

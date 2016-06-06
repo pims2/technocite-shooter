@@ -217,6 +217,17 @@ namespace ShooterTutorial.Configuration
                                     }
                                     break;
 
+                                case "List`1":
+                                    {
+                                        var createTable = GetCreateTable(field.FieldType.GenericTypeArguments[0]);
+                                        ConfigurationValueBase table = (ConfigurationValueBase)createTable.Invoke(null, new object[] { attribute.Name, attribute.Description } );
+
+                                        var getter = table.GetType().GetRuntimeMethod("Get", new Type[] { });
+
+                                        field.SetValue(null, getter.Invoke(table, null));
+                                    }
+                                    break;
+
                                 default:
                                     break;
                             }
@@ -225,6 +236,14 @@ namespace ShooterTutorial.Configuration
                     }
                 }
             }
+        }
+
+        private static MethodInfo GetCreateTable(Type type)
+        {
+            var createMethods = typeof(ConfigurationManager).GetRuntimeMethods()
+                                .Where(m => m.Name == "createTable" && m.IsGenericMethodDefinition)
+                                .First();
+            return createMethods.MakeGenericMethod(new Type[] { type });
         }
     }
 }
