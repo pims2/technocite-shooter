@@ -422,7 +422,7 @@ namespace ShooterTutorial
                         );
 
 
-                    var weapon = _weaponManager.GetRandomWeapon();
+                    var weapon = _weaponManager.GetRandomWeapon( this, _player);
 
                     powerup = new Powerup(weapon.GetPowerupAnimation(), position, weapon);
                     _collisionManager.Add(powerup);
