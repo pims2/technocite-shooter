@@ -102,6 +102,7 @@ namespace ShooterTutorial
 
             _player = new Player();
             _scene.Add(_player);
+            _collisionManager.Add(_player);
             _weapon = new Weapon(this, _player);
 
             _weaponList = new List<Weapon>();
@@ -479,7 +480,6 @@ namespace ShooterTutorial
             // methods.
 
             Rectangle playerRectangle;
-            Rectangle enemyRectangle;
             Rectangle laserRectangle;
 
             // create the rectangle for the player
@@ -489,23 +489,6 @@ namespace ShooterTutorial
                 _player.Width,
                 _player.Height);
 
-            // detect collisions between the player and all enemies.
-            for (var i = 0; i < enemies.Count; i++)
-            {
-                enemyRectangle = new Rectangle(
-                   (int)enemies[i].Position.X,
-                   (int)enemies[i].Position.Y,
-                   enemies[i].Width,
-                   enemies[i].Height);
-
-                // determine if the player and the enemy intersect.
-                if (playerRectangle.Intersects(enemyRectangle))
-                {
-                    // kill off the enemy
-                    enemies[i].DealDamage(10);
-                    _player.Damage(enemies[i].Damage);
-                }
-            }
 
             if (powerup != null)
             {

@@ -180,6 +180,10 @@ namespace ShooterTutorial.GameObjects
             {
                 DealDamage(1);
             }
+            else if (other.CollisionGroup == CollisionLayer.Player)
+            {
+                DealDamage(10);
+            }
         }
 
         class Phase1State : State

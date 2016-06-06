@@ -9,7 +9,7 @@ using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Player :IDrawable2, IPositionable
+    public class Player :IDrawable2, IPositionable, ICollidable
     {
         enum State
         {
@@ -39,6 +39,36 @@ namespace ShooterTutorial.GameObjects
         
         public int Height
         { get { return PlayerAnimation.FrameHeight; } }
+
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.Player;
+            }
+        }
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                // :TODO: collision with enemy lasers
+
+                return CollisionLayer.Enemy | CollisionLayer.PowerUp;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
+        }
 
         private State _state;
         private Game1 _game;
@@ -103,6 +133,14 @@ namespace ShooterTutorial.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             PlayerAnimation.Draw(spriteBatch);
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if (other.CollisionGroup == CollisionLayer.Enemy)
+            {
+                Damage(((Enemy) other).Damage);
+            }
         }
     }
 }
