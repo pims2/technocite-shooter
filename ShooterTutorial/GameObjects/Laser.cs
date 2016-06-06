@@ -71,7 +71,7 @@ namespace ShooterTutorial.GameObjects
             LaserAnimation.Position = Position;
             LaserAnimation.Update(gameTime);
 
-            _Active = _Active && Position.X < game.GraphicsDevice.Viewport.Width;
+            _Active = _Active && Position.X >= 0 && Position.X < game.GraphicsDevice.Viewport.Width;
         }
 
         public void Draw(SpriteBatch spriteBatch)
