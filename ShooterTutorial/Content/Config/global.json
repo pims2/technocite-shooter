@@ -3,8 +3,7 @@
         "Health": 8,
         "Damage": 10,
         "Value": 100,
-        "Name": "Enemy",
-        "HealthName" :  [ "Hello", "World"]
+        "Name": "Enemy"
     },
     "online": true,
     "test": [1,2,3]

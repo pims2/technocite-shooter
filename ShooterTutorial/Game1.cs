@@ -30,8 +30,7 @@ namespace ShooterTutorial
         public Weapon _weapon;
         CollisionManager _collisionManager;
         WeaponManager _weaponManager;
-
-        List<Weapon> _weaponList;
+        EnemyFactory _enemyFactory;
 
         Texture2D _mainBackground;
         ParallaxingBackground _bgLayer1;
@@ -101,6 +100,7 @@ namespace ShooterTutorial
             _scene = new GraphicScene();
             _collisionManager = new CollisionManager();
             _weaponManager = new WeaponManager();
+            _enemyFactory = new EnemyFactory();
 
             _player = new Player();
             _scene.Add(_player);
@@ -130,12 +130,28 @@ namespace ShooterTutorial
             base.Initialize();
 
             ConfigurationManager.logConfiguration();
+
+            var task2 = readJson("enemies");
+            task2.ContinueWith( task =>
+           {
+               var content = task.Result;
+
+               try
+               {
+                   JsonArray config = (JsonArray)JsonArray.Parse(content);
+                   _enemyFactory.Initialize(config);
+               }
+               catch (Exception e)
+               {
+
+               }
+           });
         }
 
-        private async Task<string> readConfig()
+        private async Task<string> readJson( string file_path )
         {
             var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            var file = await folder.GetFileAsync("Content\\Config\\global.json");
+            var file = await folder.GetFileAsync("Content\\Config\\" + file_path + ".json");
             var contents = await Windows.Storage.FileIO.ReadTextAsync(file);
 
             return contents;
@@ -147,7 +163,7 @@ namespace ShooterTutorial
         /// </summary>
         protected override void LoadContent()
         {
-            var task = readConfig();
+            var task = readJson( "global" );
             task.Wait();
             var content = task.Result;
 
