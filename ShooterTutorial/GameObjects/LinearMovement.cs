@@ -49,7 +49,15 @@ namespace ShooterTutorial.GameObjects
         {
             // Adjust the position slightly to match the muzzle of the cannon.
             position.Y += 37 + verticalOffset;
-            position.X += 70;
+
+            if (Math.Cos( angle ) >= 0.0f)
+            {
+                position.X += 70;
+            }
+            else
+            {
+                position.X -= 70;
+            }
 
             var direction = new Vector2();
 

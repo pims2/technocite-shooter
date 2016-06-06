@@ -26,8 +26,9 @@ namespace ShooterTutorial.GameObjects
         protected IPositionable _entity;
         protected State _state;
         protected Boolean _itMustFire;
+        protected float _weaponAngle;
 
-        public Weapon(Game1 game, IPositionable entity)
+        public Weapon(Game1 game, IPositionable entity, float angle = 0.0f)
         {
             const float SECONDS_IN_MINUTE = 60f;
             const float RATE_OF_FIRE = 200f;
@@ -37,6 +38,7 @@ namespace ShooterTutorial.GameObjects
             _entity = entity;
             _state = State.Ready;
             _itMustFire = false;
+            _weaponAngle = angle;
         }
 
         public virtual void Update(GameTime gameTime)
@@ -75,7 +77,7 @@ namespace ShooterTutorial.GameObjects
 
         protected virtual void Fire(GameTime gameTime)
         {
-            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, 0f));
+            _game.AddLaser(LinearMovement.create(_entity.Position, 0f, _weaponAngle));
         }
 
         public virtual Animation GetPowerupAnimation()

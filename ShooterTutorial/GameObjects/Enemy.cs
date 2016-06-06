@@ -23,6 +23,8 @@ namespace ShooterTutorial.GameObjects
         }
         private Vector2 _position;
 
+        private Weapon _weapon;
+
         public IMovement Movement;
 
         public int Layer
@@ -79,6 +81,7 @@ namespace ShooterTutorial.GameObjects
 
             // set the postion of th enemy ship
             _position = movement.getPosition();
+            _weapon = new Weapon(game, this, (float)Math.PI);
 
             // set the enemy to be active
             _Active = true;
@@ -127,6 +130,9 @@ namespace ShooterTutorial.GameObjects
                 _Active = false;
 
             }
+
+            _weapon.Shoot();
+            _weapon.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
