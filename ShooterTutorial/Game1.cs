@@ -505,23 +505,6 @@ namespace ShooterTutorial
                     enemies[i].DealDamage(10);
                     _player.Damage(enemies[i].Damage);
                 }
-
-                for (var l = 0; l < laserBeams.Count; l++)
-                {
-                    // create a rectangle for this laserbeam
-                    laserRectangle = new Rectangle(
-                        (int)laserBeams[l].Position.X,
-                        (int)laserBeams[l].Position.Y,
-                        laserBeams[l].Width,
-                        laserBeams[l].Height);
-
-                    // test the bounds of the laser and enemy
-                    if (laserRectangle.Intersects(enemyRectangle))
-                    {
-                        enemies[i].DealDamage(1);
-                        laserBeams[l].Active = false;
-                    }
-                }
             }
 
             if (powerup != null)

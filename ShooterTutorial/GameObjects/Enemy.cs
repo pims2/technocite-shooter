@@ -8,7 +8,7 @@ using ShooterTutorial;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Enemy : IUpdateable2, IDrawable2, IPositionable
+    public class Enemy : IUpdateable2, IDrawable2, IPositionable, ICollidable
     {
         private StateMachine _stateMachine;
 
@@ -61,6 +61,34 @@ namespace ShooterTutorial.GameObjects
         public int Height
         {
             get { return EnemyAnimation.FrameHeight; }
+        }
+
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.Enemy;
+            }
+        }
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                return CollisionLayer.Laser | CollisionLayer.Player;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
         }
 
         private Game1 _game;
@@ -144,6 +172,14 @@ namespace ShooterTutorial.GameObjects
         public void DealDamage(int damage)
         {
             Health -= damage;
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            if (other.CollisionGroup == CollisionLayer.Laser)
+            {
+                DealDamage(1);
+            }
         }
 
         class Phase1State : State

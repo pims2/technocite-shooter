@@ -8,7 +8,7 @@ using ShooterTutorial;
 
 namespace ShooterTutorial.GameObjects
 {
-    public class Laser : IUpdateable2, IDrawable2
+    public class Laser : IUpdateable2, IDrawable2, ICollidable
     {
 
         // animation the represents the laser animation.
@@ -53,6 +53,34 @@ namespace ShooterTutorial.GameObjects
 
         }
 
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.Laser;
+            }
+        }
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                return CollisionLayer.Enemy | CollisionLayer.PowerUp;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
+        }
+
         public void Initialize(Animation animation, IMovement movement)
         {
             LaserAnimation = animation;
@@ -77,6 +105,11 @@ namespace ShooterTutorial.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             LaserAnimation.Draw(spriteBatch, Movement.getRotation());
+        }
+
+        public void OnCollision(ICollidable other)
+        {
+            Active = false;
         }
     }
 }
