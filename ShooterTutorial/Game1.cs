@@ -28,6 +28,7 @@ namespace ShooterTutorial
         GraphicScene _scene;
         Player _player;
         Weapon _weapon;
+        CollisionManager _collisionManager;
 
         List<Weapon> _weaponList;
 
@@ -97,6 +98,8 @@ namespace ShooterTutorial
         protected override void Initialize()
         {
             _scene = new GraphicScene();
+            _collisionManager = new CollisionManager();
+
             _player = new Player();
             _scene.Add(_player);
             _weapon = new Weapon(this, _player);
@@ -470,7 +473,8 @@ namespace ShooterTutorial
 
         protected void UpdateCollision()
         {
-
+            _collisionManager.Update();
+ 
             // we are going to use the rectangle's built in intersection
             // methods.
 

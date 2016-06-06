@@ -171,9 +171,11 @@
     <Compile Include="ParallaxingBackground.cs" />
     <Compile Include="GameObjects\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CollisionManager.cs" />
     <Compile Include="Utilities\EntityList.cs" />
     <Compile Include="Utilities\EntityPool.cs" />
     <Compile Include="Utilities\GraphicScene.cs" />
+    <Compile Include="Utilities\ICollidable.cs" />
     <Compile Include="Utilities\IDrawable2.cs" />
     <Compile Include="Utilities\IPositionable.cs" />
     <Compile Include="Utilities\IUpdateable2.cs" />
