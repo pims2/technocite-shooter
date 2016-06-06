@@ -145,7 +145,10 @@ namespace ShooterTutorial.GameObjects
             }
             else if (other.CollisionGroup == CollisionLayer.Laser)
             {
-                Damage(10);
+                if ((other.CollisionLayers & CollisionLayer.Player) != 0)
+                {
+                    Damage(10);
+                }
             }
         }
     }

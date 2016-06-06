@@ -179,7 +179,10 @@ namespace ShooterTutorial.GameObjects
         {
             if (other.CollisionGroup == CollisionLayer.Laser)
             {
-                DealDamage(1);
+                if ((other.CollisionLayers & CollisionLayer.Enemy) != 0)
+                {
+                    DealDamage(1);
+                }
             }
             else if (other.CollisionGroup == CollisionLayer.Player)
             {
