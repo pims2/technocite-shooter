@@ -119,10 +119,10 @@ namespace ShooterTutorial
             TouchPanel.EnabledGestures = GestureType.FreeDrag;
 
             // init our laser
-            laserBeams = new EntityList<Laser>(_scene);
+            laserBeams = new EntityList<Laser>(_scene, _collisionManager);
 
             // Initialize the enemies list
-            enemies = new EntityList<Enemy>(_scene);
+            enemies = new EntityList<Enemy>(_scene, _collisionManager);
 
             //used to determine how fast the enemies will respawn.
             enemySpawnTime = TimeSpan.FromSeconds(1.0f);
@@ -130,7 +130,7 @@ namespace ShooterTutorial
             // init our random number generator
             random = new Random();
 
-            explosions = new EntityList<Explosion>(_scene);
+            explosions = new EntityList<Explosion>(_scene, _collisionManager);
             
             base.Initialize();
 

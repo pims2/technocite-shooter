@@ -9,15 +9,17 @@ namespace ShooterTutorial.Utilities
         private List<T> list;
         private EntityPool<T> pool;
         private GraphicScene scene;
+        private CollisionManager _collisionManager;
 
         public int Count
         {
             get { return list.Count; }
         }
 
-        public EntityList( GraphicScene scene )
+        public EntityList( GraphicScene scene, CollisionManager collisionManager)
         {
             this.scene = scene;
+            _collisionManager = collisionManager;
             list = new List<T>();
             pool = new EntityPool<T>();
             pool.Initialize(0);
@@ -34,6 +36,11 @@ namespace ShooterTutorial.Utilities
             list.Add(item);
             scene.Add(item);
 
+            if( item is ICollidable )
+            {
+                _collisionManager.Add((ICollidable)item);
+            }
+
             return item;
         }
 
@@ -47,6 +54,10 @@ namespace ShooterTutorial.Utilities
                 {
                     T item = list[i];
                     pool.Put(item);
+                    if (item is ICollidable)
+                    {
+                        _collisionManager.Remove((ICollidable)item);
+                    }
                     scene.Remove(item);
                     list.Remove(item);
                 };
