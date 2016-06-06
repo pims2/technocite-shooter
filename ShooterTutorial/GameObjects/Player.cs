@@ -141,6 +141,10 @@ namespace ShooterTutorial.GameObjects
             {
                 Damage(((Enemy) other).Damage);
             }
+            else if (other.CollisionGroup == CollisionLayer.PowerUp)
+            {
+                _game._weapon = ((Powerup)other).Weapon;
+            }
         }
     }
 }

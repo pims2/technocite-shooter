@@ -36,6 +36,7 @@ namespace ShooterTutorial.GameObjects
         }
 
         private bool _Active;
+        private Game1 _game;
 
         // Range of the laser.
         int Range;
@@ -81,12 +82,12 @@ namespace ShooterTutorial.GameObjects
             }
         }
 
-        public void Initialize(Animation animation, IMovement movement)
+        public void Initialize(Game1 game, Animation animation, IMovement movement)
         {
             LaserAnimation = animation;
             Movement = movement;
             Position = movement.getPosition();
-
+            _game = game;
             Active = true;
         }
 
@@ -109,6 +110,11 @@ namespace ShooterTutorial.GameObjects
 
         public void OnCollision(ICollidable other)
         {
+            if (other.CollisionGroup == CollisionLayer.PowerUp)
+            {
+                _game._weapon = ((Powerup)other).Weapon;
+            }
+
             Active = false;
         }
     }

@@ -10,7 +10,7 @@ using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    class Weapon
+    public class Weapon
     {
         protected enum State
         {

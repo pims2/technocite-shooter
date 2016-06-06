@@ -11,7 +11,7 @@ using ShooterTutorial.Utilities;
 
 namespace ShooterTutorial.GameObjects
 {
-    class Powerup : IDrawable2
+    class Powerup : IDrawable2, ICollidable
     {
         public Animation PowerupAnimation;
 
@@ -38,6 +38,34 @@ namespace ShooterTutorial.GameObjects
         public int Height
         {
             get { return PowerupAnimation.FrameHeight; }
+        }
+
+        public CollisionLayer CollisionGroup
+        {
+            get
+            {
+                return CollisionLayer.PowerUp;
+            }
+        }
+
+        public CollisionLayer CollisionLayers
+        {
+            get
+            {
+                return CollisionLayer.Laser | CollisionLayer.Player;
+            }
+        }
+
+        public Rectangle BoundingRectangle
+        {
+            get
+            {
+                return new Rectangle(
+                        (int)Position.X,
+                        (int)Position.Y,
+                        Width,
+                        Height);
+            }
         }
 
         public Powerup(Animation animation, Vector2 position, Weapon weapon)
@@ -68,5 +96,9 @@ namespace ShooterTutorial.GameObjects
             PowerupAnimation.Draw(spriteBatch);
         }
 
+        public void OnCollision(ICollidable other)
+        {
+            Active = false;
+        }
     }
 }

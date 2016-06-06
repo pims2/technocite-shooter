@@ -27,7 +27,7 @@ namespace ShooterTutorial
         SpriteBatch _spriteBatch;
         GraphicScene _scene;
         Player _player;
-        Weapon _weapon;
+        public Weapon _weapon;
         CollisionManager _collisionManager;
 
         List<Weapon> _weaponList;
@@ -237,7 +237,7 @@ namespace ShooterTutorial
             UpdatePowerup(gameTime);
 
             // update collisons
-            UpdateCollision();
+            _collisionManager.Update();
 
             UpdateExplosions(gameTime);
 
@@ -378,7 +378,7 @@ namespace ShooterTutorial
                 1f,
                 true);
          
-            laserBeams.Add().Initialize(laserAnimation, movement);
+            laserBeams.Add().Initialize(this, laserAnimation, movement);
             
             /* todo: add code to create a laser. */
             //laserSoundInstance.Play();
@@ -406,6 +406,7 @@ namespace ShooterTutorial
 
                 if (!powerup.Active)
                 {
+                    _collisionManager.Remove(powerup);
                     _scene.Remove(powerup);
                     powerup = null;
                     previousPowerupSpawnTime = gameTime.TotalGameTime;
@@ -432,6 +433,7 @@ namespace ShooterTutorial
                     var weapon = _weaponList[value];
 
                     powerup = new Powerup(weapon.GetPowerupAnimation(), position, weapon);
+                    _collisionManager.Add(powerup);
                     _scene.Add(powerup);
                 }
             }
@@ -469,59 +471,6 @@ namespace ShooterTutorial
             // Add the enemy to the active enemies list
             enemies.Add().Initialize(this, enemyAnimation, m);
 
-        }
-
-
-        protected void UpdateCollision()
-        {
-            _collisionManager.Update();
- 
-            // we are going to use the rectangle's built in intersection
-            // methods.
-
-            Rectangle playerRectangle;
-            Rectangle laserRectangle;
-
-            // create the rectangle for the player
-            playerRectangle = new Rectangle(
-                (int)_player.Position.X,
-                (int)_player.Position.Y,
-                _player.Width,
-                _player.Height);
-
-
-            if (powerup != null)
-            {
-                var powerupRectangle = new Rectangle(
-                    (int)powerup.Position.X,
-                    (int)powerup.Position.Y,
-                    powerup.Width,
-                    powerup.Height);
-
-                // determine if the player and the enemy intersect.
-                if (playerRectangle.Intersects(powerupRectangle))
-                {
-                    powerup.Active = false;
-
-                    _weapon = powerup.Weapon;
-                }
-                for (var l = 0; l < laserBeams.Count; l++)
-                {
-                    laserRectangle = new Rectangle(
-                 (int)laserBeams[l].Position.X,
-                 (int)laserBeams[l].Position.Y,
-                 laserBeams[l].Width,
-                 laserBeams[l].Height);
-
-                    if (laserRectangle.Intersects(powerupRectangle))
-                    {
-                        powerup.Active = false;
-
-                        _weapon = powerup.Weapon;
-                    }
-                }
-
-            }
         }
 
         public void AddExplosion(Vector2 enemyPosition)
