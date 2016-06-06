@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShooterTutorial.GameObjects
 {
-
+    [WeaponDefinition]
     class Bazooka : Weapon
     {
 

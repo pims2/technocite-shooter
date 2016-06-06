@@ -29,6 +29,7 @@ namespace ShooterTutorial
         Player _player;
         public Weapon _weapon;
         CollisionManager _collisionManager;
+        WeaponManager _weaponManager;
 
         List<Weapon> _weaponList;
 
@@ -99,20 +100,13 @@ namespace ShooterTutorial
         {
             _scene = new GraphicScene();
             _collisionManager = new CollisionManager();
+            _weaponManager = new WeaponManager();
 
             _player = new Player();
             _scene.Add(_player);
             _collisionManager.Add(_player);
             _weapon = new Weapon(this, _player);
 
-            _weaponList = new List<Weapon>();
-
-            _weaponList.Add(new Bazooka(this, _player));
-            _weaponList.Add(new WaveWeapon(this, _player));
-            _weaponList.Add(new SinusShot(this, _player));
-            _weaponList.Add(new TripleWeaponRotateGHA(this, _player));
-            _weaponList.Add(new GravityBombing(this, _player));
-            _weaponList.Add(new CircularShoot(this, _player));
             _bgLayer1 = new ParallaxingBackground();
             _bgLayer2 = new ParallaxingBackground();
             _rectBackground = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
@@ -428,9 +422,7 @@ namespace ShooterTutorial
                         );
 
 
-                    int value = random.Next(_weaponList.Count);
-
-                    var weapon = _weaponList[value];
+                    var weapon = _weaponManager.GetRandomWeapon();
 
                     powerup = new Powerup(weapon.GetPowerupAnimation(), position, weapon);
                     _collisionManager.Add(powerup);

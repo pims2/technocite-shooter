@@ -165,6 +165,8 @@
     <Compile Include="GameObjects\WaveMovement.cs" />
     <Compile Include="GameObjects\WaveWeapon.cs" />
     <Compile Include="GameObjects\Weapon.cs" />
+    <Compile Include="GameObjects\WeaponDefinition.cs" />
+    <Compile Include="GameObjects\WeaponManager.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
