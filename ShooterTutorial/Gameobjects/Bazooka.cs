@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShooterTutorial.GameObjects
 {
-
     class Bazooka : Weapon
     {
 

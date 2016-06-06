@@ -1,0 +1,14 @@
+﻿[
+    {
+        "Speed": 10,
+        "Movement": "LinearMovement"
+    },
+    {
+        "Speed": 1,
+        "Movement": "SinusoidaleMovement"
+    },
+    {
+        "Speed": 30,
+        "Movement": "GravityMovement"
+    }
+]

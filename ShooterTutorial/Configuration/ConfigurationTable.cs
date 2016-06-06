@@ -29,5 +29,10 @@ namespace ShooterTutorial.Configuration
         {
             ValueTable.Add(value);
         }
+
+        public List<T> Get()
+        {
+            return ValueTable;
+        }
     }
 }
