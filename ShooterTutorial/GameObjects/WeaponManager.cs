@@ -20,6 +20,10 @@ namespace ShooterTutorial.GameObjects
             {
                 if( type.GetCustomAttribute(typeof(WeaponDefinitionAttribute)) != null)
                 {
+                    if( type.Name == "Weapon")
+                    {
+                        continue;
+                    }
                     _weaponTypeList.Add(type);
                 }
             }
