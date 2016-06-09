@@ -14,52 +14,88 @@ namespace ShooterTutorial.Utilities
         public void Add(ICollidable collidable )
         {
             CollisionLayer group = collidable.CollisionGroup;
- 
-            if (!_collidableLists.ContainsKey(group))
-            {
-                _collidableLists.Add(group, new List<ICollidable>());
-            }
 
-            _collidableLists[group].Add(collidable);
+            lock (_collidableLists)
+            {
+                if (!_collidableLists.ContainsKey(group))
+                {
+                    _collidableLists.Add(group, new List<ICollidable>());
+                }
+
+                _collidableLists[group].Add(collidable);
+            }
         }
 
         public void Remove(ICollidable collidable)
         {
-            _collidableLists[collidable.CollisionGroup].Remove(collidable);
+            lock (_collidableLists)
+            {
+                _collidableLists[collidable.CollisionGroup].Remove(collidable);
+            }
         }
 
         public void Update()
         {
-            for (int i = 0; i < _collidableLists.Count; i++)
+            List<Task> tasks = new List<Task>();
+
+            lock (_collidableLists)
             {
-                var first = _collidableLists.ElementAt(i);
-                var first_key = first.Key;
-                var first_list = first.Value;
-
-                for (int j = 0; j < _collidableLists.Count; j++)
+                for (int i = 0; i < _collidableLists.Count; i++)
                 {
-                    var second = _collidableLists.ElementAt(j);
-                    var second_key = second.Key;
-                    var second_list = second.Value;
+                    var first = _collidableLists.ElementAt(i);
+                    var first_key = first.Key;
+                    var first_list = first.Value;
 
-                    foreach (var first_collidable in first_list)
+                    for (int j = 0; j < _collidableLists.Count; j++)
                     {
-                        if ((first_collidable.CollisionLayers & second_key) != 0)
+                        var second = _collidableLists.ElementAt(j);
+                        var second_key = second.Key;
+                        var second_list = second.Value;
+
+                        var first_list_copy = first_list.Clone();
+                        var second_list_copy = second_list.Clone();
+
+                        tasks.Add(new Task(() => ProcessCollisions(first_list_copy, second_key, second_list_copy)));
+                    }
+                }
+            }
+
+            tasks.StartAndWaitForAll();
+        }
+
+        private static void ProcessCollisions(List<ICollidable> first_list, CollisionLayer second_key, List<ICollidable> second_list)
+        {
+            foreach (var first_collidable in first_list)
+            {
+                if ((first_collidable.CollisionLayers & second_key) != 0)
+                {
+                    foreach (var second_collidable in second_list)
+                    {
+                        if (
+                            first_collidable != second_collidable
+                            && first_collidable.BoundingRectangle.Intersects(second_collidable.BoundingRectangle)
+                            )
                         {
-                            foreach (var second_collidable in second_list)
-                            {
-                                if (
-                                    first_collidable != second_collidable
-                                    && first_collidable.BoundingRectangle.Intersects(second_collidable.BoundingRectangle)
-                                    )
-                                {
-                                    first_collidable.OnCollision(second_collidable);
-                                }
-                            }
+                            first_collidable.OnCollision(second_collidable);
                         }
                     }
                 }
             }
+        }
+    }
+
+    static class Extensions
+    {
+        public static List<T> Clone<T>(this List<T> list)
+        {
+            return list.Select(item => item).ToList();
+        }
+
+        public static void StartAndWaitForAll(this List<Task> tasks)
+        {
+            tasks.AsParallel().ForAll(task => task.Start());
+
+            Task.WaitAll(tasks.ToArray());
         }
     }
 }
