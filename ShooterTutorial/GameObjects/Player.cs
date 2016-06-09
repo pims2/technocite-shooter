@@ -12,6 +12,8 @@ namespace ShooterTutorial.GameObjects
     public class Player :IDrawable2, IPositionable, ICollidable
     {
         private delegate void StateDelegate(GameTime gameTime);
+        public delegate void OnHealthModifiedDelegate(int health);
+        public OnHealthModifiedDelegate OnHealthModified { get; set; }
 
         public Animation PlayerAnimation;
 
@@ -22,7 +24,8 @@ namespace ShooterTutorial.GameObjects
         private Vector2 _position;
 
         // Amount of hit points the player has
-        public int Health;
+        private int _health;
+        public int Health { get { return _health; } set { _health = value; OnHealthModified(_health); } }
 
         public int Layer
         {
