@@ -128,6 +128,7 @@ namespace ShooterTutorial.GameObjects
         public void Damage(int damage)
         {
             Health -= damage;
+            Health = Math.Max(0, Health);
         }
 
         public void Draw(SpriteBatch spriteBatch)
