@@ -12,6 +12,7 @@ using Windows.Data.Json;
 using System.IO;
 using Windows.Storage;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 
 namespace ShooterTutorial
 {
@@ -80,6 +81,8 @@ namespace ShooterTutorial
 
         //Texture to hold explosion animation.
         Texture2D explosionTexture;
+
+        bool Loaded = false;
 
         ConfigurationTable<int> test = ConfigurationManager.createTable<int>( "test", "table test" );
 
@@ -161,7 +164,17 @@ namespace ShooterTutorial
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
         /// </summary>
-        protected override void LoadContent()
+        protected override async void LoadContent()
+        {
+            // Load the background.
+            _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
+            _bgLayer2.Initialize(Content, "Graphics/bgLayer2", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -2);
+            _mainBackground = Content.Load<Texture2D>("Graphics/mainbackground");
+
+            await ThreadPool.RunAsync(new WorkItemHandler(LoadContentBackground));
+        }
+
+        protected async void LoadContentBackground(Windows.Foundation.IAsyncAction action)
         {
             var task = readJson( "global" );
             task.Wait();
@@ -190,10 +203,7 @@ namespace ShooterTutorial
             
             _player.Initialize(this, playerAnimation, playerPosition);
 
-            // Load the background.
-            _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
-            _bgLayer2.Initialize(Content, "Graphics/bgLayer2", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -2);
-            _mainBackground = Content.Load<Texture2D>("Graphics/mainbackground");
+            
 
             // load the enemy texture.
             enemyTexture = Content.Load<Texture2D>("Graphics\\mineAnimation");
@@ -204,6 +214,9 @@ namespace ShooterTutorial
             // Load the exploision sprite strip
             explosionTexture = Content.Load<Texture2D>("Graphics\\explosion");
 
+            await Task.Delay(4000);
+
+            Loaded = true;
         }
 
         /// <summary>
@@ -232,10 +245,16 @@ namespace ShooterTutorial
             _currentGamePadState = GamePad.GetState(PlayerIndex.One);
             _currentMouseState = Mouse.GetState();
             
-            UpdatePlayer(gameTime);
             _bgLayer1.Update(gameTime);
             _bgLayer2.Update(gameTime);
 
+
+            if( !Loaded)
+            {
+                return;
+            }
+
+            UpdatePlayer(gameTime);
             _weapon.Update(gameTime);
 
             // update lasers
@@ -359,7 +378,10 @@ namespace ShooterTutorial
             _bgLayer1.Draw(_spriteBatch);
             _bgLayer2.Draw(_spriteBatch);
 
-            _scene.Draw(_spriteBatch);
+            if (Loaded)
+            {
+                _scene.Draw(_spriteBatch);
+            }
 
             // Stop drawing
             _spriteBatch.End(); 
