@@ -51,18 +51,16 @@ namespace ShooterTutorial.Utilities
                         var second = _collidableLists.ElementAt(j);
                         var second_key = second.Key;
                         var second_list = second.Value;
-                       
-                        var first_list_copy = first_list.Select(item => item).ToList();
-                        var second_list_copy = second_list.Select(item => item).ToList();
+
+                        var first_list_copy = first_list.Clone();
+                        var second_list_copy = second_list.Clone();
 
                         tasks.Add(new Task(() => ProcessCollisions(first_list_copy, second_key, second_list_copy)));
                     }
                 }
             }
 
-            tasks.AsParallel().ForAll(task => task.Start());
-
-            Task.WaitAll(tasks.ToArray());
+            tasks.StartAndWaitForAll();
         }
 
         private static void ProcessCollisions(List<ICollidable> first_list, CollisionLayer second_key, List<ICollidable> second_list)
@@ -83,6 +81,21 @@ namespace ShooterTutorial.Utilities
                     }
                 }
             }
+        }
+    }
+
+    static class Extensions
+    {
+        public static List<T> Clone<T>(this List<T> list)
+        {
+            return list.Select(item => item).ToList();
+        }
+
+        public static void StartAndWaitForAll(this List<Task> tasks)
+        {
+            tasks.AsParallel().ForAll(task => task.Start());
+
+            Task.WaitAll(tasks.ToArray());
         }
     }
 }
