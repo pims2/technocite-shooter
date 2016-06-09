@@ -11,6 +11,8 @@ namespace ShooterTutorial
 {
     public class Animation
     {
+        public delegate void OnEndCallback();
+
         // The image representing the collection of images used for animation
         Texture2D spriteStrip;
 
@@ -32,7 +34,9 @@ namespace ShooterTutorial
         // The color of the frame we will be displaying
         Color _color;
         public Color Color { set { _color = value; } }
-        
+
+        public OnEndCallback onEndCallback { get; set; }
+
         // The area of the image strip we want to display
         Rectangle sourceRect = new Rectangle();
 
@@ -87,6 +91,7 @@ namespace ShooterTutorial
 
                 if (currentFrame == frameCount)
                 {
+                    onEndCallback?.Invoke();
                     currentFrame = 0;
                     if (Looping == false)
                         Active = false;
