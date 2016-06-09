@@ -171,6 +171,9 @@ namespace ShooterTutorial
             _bgLayer2.Initialize(Content, "Graphics/bgLayer2", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -2);
             _mainBackground = Content.Load<Texture2D>("Graphics/mainbackground");
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
             await ThreadPool.RunAsync(new WorkItemHandler(LoadContentBackground));
         }
 
@@ -189,9 +192,6 @@ namespace ShooterTutorial
             {
                 
             }
-
-            // Create a new SpriteBatch, which can be used to draw textures.
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load the player resources
             Rectangle titleSafeArea = GraphicsDevice.Viewport.TitleSafeArea;    

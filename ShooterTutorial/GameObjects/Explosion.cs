@@ -47,6 +47,7 @@ namespace ShooterTutorial.GameObjects
         public void Initialize(Animation animation, Vector2 position)
         {
             explosionAnimation = animation;
+            explosionAnimation.onEndCallback = () => { System.Diagnostics.Debug.WriteLine("Kaboom"); };
             Position = position;
             Active = true;
 
