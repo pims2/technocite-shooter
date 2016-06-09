@@ -183,6 +183,7 @@
     <Compile Include="Utilities\IDrawable2.cs" />
     <Compile Include="Utilities\IPositionable.cs" />
     <Compile Include="Utilities\IUpdateable2.cs" />
+    <Compile Include="Utilities\UI.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
