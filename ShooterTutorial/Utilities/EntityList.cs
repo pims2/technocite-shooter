@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Windows.System.Threading;
+using Windows.Foundation;
+using System.Threading.Tasks;
 
 namespace ShooterTutorial.Utilities
 {
@@ -32,9 +35,16 @@ namespace ShooterTutorial.Utilities
 
         public T Add()
         {
-            T item = pool.Get();
-            list.Add(item);
-            scene.Add(item);
+            T item = default(T);
+            lock (list)
+            {
+                item = pool.Get();
+                list.Add(item);
+            }
+            lock (scene)
+            {
+                scene.Add(item);
+            }
 
             if( item is ICollidable )
             {
@@ -44,24 +54,46 @@ namespace ShooterTutorial.Utilities
             return item;
         }
 
+        protected void UpdateEntity(T entity, Game game, GameTime gameTime )
+        {
+            entity.Update(game, gameTime);
+
+            if (!entity.Active)
+            {
+                T item = entity;
+                if (item is ICollidable)
+                {
+                    _collisionManager.Remove((ICollidable)item);
+                }
+                lock(scene)
+                {
+                    scene.Remove(item);
+                }
+                lock(list)
+                {
+                    pool.Put(item);
+                    list.Remove(item);
+                }
+            };
+        }
+
         public void Update(Game game, GameTime gameTime)
         {
-            for (var i = 0; i < list.Count; i++)
-            {
-                list[i].Update(game, gameTime);
+            Task[] tasks = new Task[list.Count];
+            int count = list.Count;
+            T[] copy = new T[list.Count];
 
-                if (!list[i].Active)
-                {
-                    T item = list[i];
-                    pool.Put(item);
-                    if (item is ICollidable)
-                    {
-                        _collisionManager.Remove((ICollidable)item);
-                    }
-                    scene.Remove(item);
-                    list.Remove(item);
-                };
+            list.CopyTo(copy);
+            for (var i = 0; i < count; i++)
+            {
+                var entity = copy[i];
+
+                tasks[i] =Task.Run(
+                    () => UpdateEntity(entity, game, gameTime)
+                    );
             }
+
+            Task.WaitAll(tasks);
         }
     }
 }
