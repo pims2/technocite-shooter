@@ -11,12 +11,9 @@ namespace ShooterTutorial.GameObjects
 {
     public class Player :IDrawable2, IPositionable, ICollidable
     {
-        enum State
-        {
-            Alive,
-            Dead,
-            Invincible
-        }
+        private delegate void StateDelegate(GameTime gameTime);
+        public delegate void OnHealthModifiedDelegate(int health);
+        public OnHealthModifiedDelegate OnHealthModified { get; set; }
 
         public Animation PlayerAnimation;
 
@@ -27,7 +24,8 @@ namespace ShooterTutorial.GameObjects
         private Vector2 _position;
 
         // Amount of hit points the player has
-        public int Health;
+        private int _health;
+        public int Health { get { return _health; } set { _health = value; OnHealthModified(_health); } }
 
         public int Layer
         {
@@ -68,7 +66,8 @@ namespace ShooterTutorial.GameObjects
             }
         }
 
-        private State _state;
+        private StateDelegate _stateDelegate;
+
         private Game1 _game;
 
         TimeSpan _timer;
@@ -80,52 +79,56 @@ namespace ShooterTutorial.GameObjects
 
             _position = position;
             Health = 100;
-            _state = State.Alive;
+            _stateDelegate = StateAliveUpdate;
             _game = game;
+        }
+
+        private void StateAliveUpdate(GameTime gameTime)
+        {
+            if (Health <= 0)
+            {
+                _timer = gameTime.TotalGameTime;
+                _game.AddExplosion(_position);
+                PlayerAnimation.Active = false;
+                _stateDelegate = StateDeadUpdate;
+            }
+            PlayerAnimation.Position = _position;
+        }
+
+        public void StateDeadUpdate(GameTime gameTime)
+        {
+            if (gameTime.TotalGameTime.Seconds - _timer.Seconds >= 3)
+            {
+                _timer = gameTime.TotalGameTime;
+                _stateDelegate = StateInvincibleUpdate;
+                PlayerAnimation.Active = true;
+                PlayerAnimation.Color = Color.Red;
+            }
+        }
+
+
+        public void StateInvincibleUpdate(GameTime gameTime)
+        {
+            if (gameTime.TotalGameTime.Seconds - _timer.Seconds >= 3)
+            {
+                PlayerAnimation.Color = Color.White;
+                Health = 100;
+                _stateDelegate = StateAliveUpdate;
+            }
+
+            PlayerAnimation.Position = _position;
         }
 
         public void Update(GameTime gameTime)
         {
-            switch (_state)
-            {
-                case State.Alive:
-                    if (Health <= 0)
-                    {
-                        _timer = gameTime.TotalGameTime;
-                        _game.AddExplosion(_position);
-                        PlayerAnimation.Active = false;
-                        _state = State.Dead;
-                    }
-                    PlayerAnimation.Position = _position;
-                    break;
-                case State.Dead:
-                    if (gameTime.TotalGameTime.Seconds - _timer.Seconds >= 3 )
-                    {
-                        _timer = gameTime.TotalGameTime;
-                        _state = State.Invincible;
-                        PlayerAnimation.Active = true;
-                        PlayerAnimation.Color = Color.Red;
-                    }
-                    break;
-                case State.Invincible:
-                    if (gameTime.TotalGameTime.Seconds - _timer.Seconds >= 3)
-                    {
-                        PlayerAnimation.Color = Color.White;
-                        Health = 100;
-                        _state = State.Alive;
-                    }
-
-                    PlayerAnimation.Position = _position;
-                    break;
-                default:
-                    break;
-            }
+            _stateDelegate(gameTime);
             PlayerAnimation.Update(gameTime);
         }
 
         public void Damage(int damage)
         {
             Health -= damage;
+            Health = Math.Max(0, Health);
         }
 
         public void Draw(SpriteBatch spriteBatch)

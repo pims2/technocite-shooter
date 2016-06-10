@@ -82,6 +82,7 @@ namespace ShooterTutorial
         //Texture to hold explosion animation.
         Texture2D explosionTexture;
 
+        UI ui = new UI();
         bool Loaded = false;
 
         ConfigurationTable<int> test = ConfigurationManager.createTable<int>( "test", "table test" );
@@ -166,6 +167,8 @@ namespace ShooterTutorial
         /// </summary>
         protected override async void LoadContent()
         {
+            ui.Initialize(this, _player);
+
             // Load the background.
             _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
             _bgLayer2.Initialize(Content, "Graphics/bgLayer2", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -2);
@@ -382,6 +385,8 @@ namespace ShooterTutorial
             {
                 _scene.Draw(_spriteBatch);
             }
+
+            ui.Draw(_spriteBatch);
 
             // Stop drawing
             _spriteBatch.End(); 
