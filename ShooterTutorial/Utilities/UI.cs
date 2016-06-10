@@ -15,6 +15,12 @@ namespace ShooterTutorial.Utilities
         string _healthMessage;
         Color _textColor;
 
+        async void resetColor()
+        {
+            await Task.Delay(1000);
+            _textColor = Color.White;
+        }
+
         public void Initialize(Game game, Player player, CollisionManager collision_manager)
         {
             _textColor = Color.White;
@@ -22,9 +28,15 @@ namespace ShooterTutorial.Utilities
             player.OnHealthModified += UpdateHealthMessage;
             UpdateHealthMessage(player.Health);
             collision_manager.OnCollision += (s, e) => {
-                System.Diagnostics.Debug.WriteLine("UI collision detected");
-                _textColor = Color.Red;
-                };
+                if (
+                    e.first.CollisionGroup == CollisionLayer.Enemy
+                    || e.second.CollisionGroup == CollisionLayer.Enemy
+                    )
+                {
+                    _textColor = Color.Green;
+                    resetColor();
+                }
+            };
         }
 
         public void UpdateHealthMessage(int health)
