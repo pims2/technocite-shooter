@@ -13,12 +13,18 @@ namespace ShooterTutorial.Utilities
     {
         SpriteFont _font;
         string _healthMessage;
+        Color _textColor;
 
-        public void Initialize(Game game, Player player)
+        public void Initialize(Game game, Player player, CollisionManager collision_manager)
         {
+            _textColor = Color.White;
             _font = game.Content.Load<SpriteFont>("Graphics/gameFont");
             player.OnHealthModified += UpdateHealthMessage;
             UpdateHealthMessage(player.Health);
+            collision_manager.OnCollision += (s, e) => {
+                System.Diagnostics.Debug.WriteLine("UI collision detected");
+                _textColor = Color.Red;
+                };
         }
 
         public void UpdateHealthMessage(int health)
@@ -28,7 +34,7 @@ namespace ShooterTutorial.Utilities
 
         public void Draw(SpriteBatch sprite_batch)
         {
-            sprite_batch.DrawString(_font, _healthMessage, new Vector2(100, 100), Color.White);
+            sprite_batch.DrawString(_font, _healthMessage, new Vector2(100, 100), _textColor);
         }
     }
 }

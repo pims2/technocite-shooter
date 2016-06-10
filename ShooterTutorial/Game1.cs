@@ -167,7 +167,7 @@ namespace ShooterTutorial
         /// </summary>
         protected override async void LoadContent()
         {
-            ui.Initialize(this, _player);
+            ui.Initialize(this, _player, _collisionManager);
 
             // Load the background.
             _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
