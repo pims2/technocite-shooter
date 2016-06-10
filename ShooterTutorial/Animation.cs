@@ -35,7 +35,7 @@ namespace ShooterTutorial
         Color _color;
         public Color Color { set { _color = value; } }
 
-        public OnEndCallback onEndCallback { get; set; }
+        public event OnEndCallback onEndCallback;
 
         // The area of the image strip we want to display
         Rectangle sourceRect = new Rectangle();
