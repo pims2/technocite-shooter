@@ -240,10 +240,18 @@
     <None Include="Content\Models\turret_alt_diff_tex_0.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Sounds\explosion.xnb" />
-    <None Include="Content\Sounds\gameMusic.xnb" />
-    <None Include="Content\Sounds\laserFire.xnb" />
-    <None Include="Content\Sounds\menuMusic.xnb" />
+    <Content Include="Content\Sounds\explosion.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\gameMusic.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\laserFire.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sounds\menuMusic.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="ShooterTutorial_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>

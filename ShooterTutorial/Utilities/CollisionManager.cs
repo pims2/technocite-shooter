@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace ShooterTutorial.Utilities
 {
-    class CollisionManager
+    public class CollisionManager
     {
+        public class CollisionEventArgs
+        {
+            public ICollidable first;
+            public ICollidable second;
+        }
+ 
+        public event EventHandler<CollisionEventArgs> OnCollision;
+
         Dictionary<CollisionLayer, List<ICollidable>> _collidableLists = new Dictionary<CollisionLayer, List<ICollidable>>();
  
         public void Add(ICollidable collidable )
@@ -55,7 +63,7 @@ namespace ShooterTutorial.Utilities
                         var first_list_copy = first_list.Clone();
                         var second_list_copy = second_list.Clone();
 
-                        tasks.Add(new Task(() => ProcessCollisions(first_list_copy, second_key, second_list_copy)));
+                        tasks.Add(new Task(() => ProcessCollisions(this, first_list_copy, second_key, second_list_copy)));
                     }
                 }
             }
@@ -63,7 +71,7 @@ namespace ShooterTutorial.Utilities
             tasks.StartAndWaitForAll();
         }
 
-        private static void ProcessCollisions(List<ICollidable> first_list, CollisionLayer second_key, List<ICollidable> second_list)
+        private static void ProcessCollisions(CollisionManager _this, List<ICollidable> first_list, CollisionLayer second_key, List<ICollidable> second_list)
         {
             foreach (var first_collidable in first_list)
             {
@@ -77,6 +85,10 @@ namespace ShooterTutorial.Utilities
                             )
                         {
                             first_collidable.OnCollision(second_collidable);
+                            CollisionEventArgs args = new CollisionEventArgs();
+                            args.first = first_collidable;
+                            args.second = second_collidable;
+                            _this.OnCollision(_this, args);
                         }
                     }
                 }

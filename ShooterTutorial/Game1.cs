@@ -13,6 +13,7 @@ using System.IO;
 using Windows.Storage;
 using System.Threading.Tasks;
 using Windows.System.Threading;
+using Microsoft.Xna.Framework.Audio;
 
 namespace ShooterTutorial
 {
@@ -57,6 +58,7 @@ namespace ShooterTutorial
 
         EntityList<Laser> laserBeams;
 
+        SoundEffect laserSoundEffect;
 
         // The rate at which enemies appear.
         TimeSpan enemySpawnTime;
@@ -167,7 +169,7 @@ namespace ShooterTutorial
         /// </summary>
         protected override async void LoadContent()
         {
-            ui.Initialize(this, _player);
+            ui.Initialize(this, _player, _collisionManager);
 
             // Load the background.
             _bgLayer1.Initialize(Content, "Graphics/bgLayer1", GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height, -1);
@@ -216,6 +218,8 @@ namespace ShooterTutorial
 
             // Load the exploision sprite strip
             explosionTexture = Content.Load<Texture2D>("Graphics\\explosion");
+
+            laserSoundEffect = Content.Load<SoundEffect>("Sounds\\laserFire");
 
             await Task.Delay(4000);
 
@@ -416,9 +420,9 @@ namespace ShooterTutorial
                 true);
          
             laserBeams.Add().Initialize(this, laserAnimation, movement, collision_layers);
-            
-            /* todo: add code to create a laser. */
-            //laserSoundInstance.Play();
+
+            var instance = laserSoundEffect.CreateInstance();
+            instance.Play();
         }
 
         protected void UpdateEnemies(GameTime gameTime)
